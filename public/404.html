@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>404 - Page Not Found | Muhammad Zaynurroyhan</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0a0e17;
+        color: #e8edf6;
+        font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
+        padding: 24px;
+      }
+      .panel {
+        position: relative;
+        max-width: 480px;
+        width: 100%;
+        border: 1px solid #223052;
+        padding: 48px 40px;
+        text-align: center;
+        background-image:
+          linear-gradient(#22305255 1px, transparent 1px),
+          linear-gradient(90deg, #22305255 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .corner { position: absolute; width: 10px; height: 10px; border-color: #6ea8ff; border-style: solid; }
+      .corner.tl { top: -5px; left: -5px; border-width: 3px 0 0 3px; }
+      .corner.tr { top: -5px; right: -5px; border-width: 3px 3px 0 0; }
+      .corner.bl { bottom: -5px; left: -5px; border-width: 0 0 3px 3px; }
+      .corner.br { bottom: -5px; right: -5px; border-width: 0 3px 3px 0; }
+      .meta { display: flex; justify-content: space-between; font-size: 10px; color: #9aa7bd; margin-bottom: 40px; }
+      h1 { font-size: 56px; font-weight: 800; letter-spacing: -1px; }
+      h1 span { color: #6ea8ff; }
+      .label { margin-top: 12px; font-size: 12px; letter-spacing: 3px; color: #9aa7bd; text-transform: uppercase; }
+      .hint { margin-top: 28px; font-size: 12px; color: #9aa7bd; line-height: 1.7; }
+      a {
+        display: inline-block;
+        margin-top: 32px;
+        min-height: 44px;
+        line-height: 42px;
+        padding: 0 28px;
+        border: 1px solid #35486f;
+        color: #e8edf6;
+        text-decoration: none;
+        font-size: 12px;
+        letter-spacing: 1px;
+        transition: border-color 150ms;
+      }
+      a:hover, a:focus-visible { border-color: #6ea8ff; outline: none; }
+      a:focus-visible { outline: 2px solid #6ea8ff; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <main class="panel">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+      <div class="meta"><span>&lt;ERROR&gt;</span><span>404</span></div>
+      <h1>4<span>0</span>4</h1>
+      <p class="label">Page not found</p>
+      <p class="hint">The route you requested does not exist in this system.</p>
+      <a href="/">BACK TO HOME</a>
+    </main>
+  </body>
+</html>
