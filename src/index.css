@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --canvas: #f7f9fc;
+  --panel: #ffffff;
+  --panel-soft: #eef2f8;
+  --edge: #d7dfee;
+  --edge-strong: #b9c5da;
+  --ink: #1c2637;
+  --dim: #55627a;
+  --brand: #2563eb;
+  --brand-bright: #1d4ed8;
+  --brand-soft: #dbe6fb;
+  --ok: #047857;
+}
+
+.dark {
+  --canvas: #0a0e17;
+  --panel: #0f1524;
+  --panel-soft: #131b2e;
+  --edge: #223052;
+  --edge-strong: #35486f;
+  --ink: #e8edf6;
+  --dim: #9aa7bd;
+  --brand: #3b82f6;
+  --brand-bright: #6ea8ff;
+  --brand-soft: #16233f;
+  --ok: #34d399;
+}
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-panel-soft: var(--panel-soft);
+  --color-edge: var(--edge);
+  --color-edge-strong: var(--edge-strong);
+  --color-ink: var(--ink);
+  --color-dim: var(--dim);
+  --color-brand: var(--brand);
+  --color-brand-bright: var(--brand-bright);
+  --color-brand-soft: var(--brand-soft);
+  --color-ok: var(--ok);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  svg {
+    display: block;
+  }
+
+  button,
+  input {
+    border: 0;
+    font-family: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-bright);
+    outline-offset: 2px;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+/* Functional motion: live-status indicator must signal liveness
+   (DESIGN.md MOTION 1 exception). */
+@keyframes statusPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@layer utilities {
+  .animate-status-pulse {
+    animation: statusPulse 1.8s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

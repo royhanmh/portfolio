@@ -1,0 +1,7 @@
+node_modules
+dist
+dev.log
+preview.log
+*.local
+.DS_Store
+new.txt
