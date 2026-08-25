@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 
-// Identity motif: static HUD mesh grid. Drawn once per resize, no animation
-// loop (DESIGN.md: MOTION 1). Purpose is texture for the terminal-HUD brand.
+// Identity motif: HUD mesh grid with ambient drifting particles.
+// User-requested motion (DESIGN.md: MOTION 2). Skipped entirely when the
+// visitor prefers reduced motion; a single static frame is drawn instead.
 export default function useCanvasMesh() {
   const canvasRef = useRef(null);
 
@@ -9,24 +10,38 @@ export default function useCanvasMesh() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    let animationFrameId = null;
+    let dots = [];
 
-    const draw = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      canvas.width = parent.clientWidth;
-      canvas.height = parent.clientHeight;
+    const readColors = () => {
+      const styles = getComputedStyle(document.documentElement);
+      return {
+        edge: styles.getPropertyValue("--edge").trim() || "#223052",
+        brand: styles.getPropertyValue("--brand").trim() || "#3b82f6",
+        alpha: document.documentElement.classList.contains("dark") ? 0.6 : 0.4,
+      };
+    };
+
+    const spawnDots = () => {
+      dots = Array.from({ length: 25 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 1.8 + 0.8,
+      }));
+    };
+
+    const drawFrame = () => {
+      const { edge, brand, alpha } = readColors();
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const styles = getComputedStyle(document.documentElement);
-      const edge = styles.getPropertyValue("--edge").trim() || "#223052";
-      const brand = styles.getPropertyValue("--brand").trim() || "#3b82f6";
-      const isDark = document.documentElement.classList.contains("dark");
-
-      const step = 40;
       ctx.strokeStyle = edge;
       ctx.globalAlpha = 0.35;
       ctx.lineWidth = 1;
 
+      const step = 40;
       for (let x = step; x < canvas.width; x += step) {
         ctx.beginPath();
         ctx.moveTo(x + 0.5, 0);
@@ -40,39 +55,60 @@ export default function useCanvasMesh() {
         ctx.stroke();
       }
 
-      // A few fixed nodes give the grid a plotted-points feel.
-      ctx.globalAlpha = isDark ? 0.7 : 0.55;
       ctx.fillStyle = brand;
-      const cols = Math.floor(canvas.width / step);
-      const rows = Math.floor(canvas.height / step);
-      const nodeCount = Math.min(14, cols * rows);
-      let seed = 7;
-      const rand = () => {
-        seed = (seed * 16807) % 2147483647;
-        return seed / 2147483647;
-      };
-      for (let i = 0; i < nodeCount; i++) {
-        const nx = Math.floor(rand() * cols) * step + step / 2;
-        const ny = Math.floor(rand() * rows) * step + step / 2;
+      ctx.globalAlpha = alpha;
+      for (const dot of dots) {
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+        if (dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
+        if (dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
+
         ctx.beginPath();
-        ctx.arc(nx, ny, 1.6, 0, Math.PI * 2);
+        ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
         ctx.fill();
       }
+
       ctx.globalAlpha = 1;
     };
 
-    draw();
+    let resizeHandler;
 
-    const observer = new ResizeObserver(draw);
-    if (canvas.parentElement) observer.observe(canvas.parentElement);
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      resizeHandler = () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        dots = [];
+        drawFrame();
+      };
+      resizeHandler();
+    } else {
+      resizeHandler = () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        spawnDots();
+      };
+      resizeHandler();
+      const render = () => {
+        drawFrame();
+        animationFrameId = requestAnimationFrame(render);
+      };
+      render();
+    }
 
-    const themeWatcher = new MutationObserver(draw);
+    const observer = new ResizeObserver(resizeHandler);
+    observer.observe(canvas.parentElement);
+
+    // Theme flips change --edge/--brand colors; a redraw picks them up.
+    const themeWatcher = new MutationObserver(resizeHandler);
     themeWatcher.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     });
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       observer.disconnect();
       themeWatcher.disconnect();
     };

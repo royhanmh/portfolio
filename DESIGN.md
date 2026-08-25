@@ -22,11 +22,12 @@ hero and project previews so the page reads as one system.
   language (R-11 deliberate choice).
 
 ## Dials
-ENERGY 2 / RHYTHM 2 / MOTION 1
+ENERGY 2 / RHYTHM 2 / MOTION 2
 
-- MOTION 1: hover states and transitions only. One exception: the "online" status dot
-  pulses because a live-status indicator must signal liveness (functional motion).
-  No scroll-reveal, no floating, no parallax.
+- MOTION 2: hover states, transitions, and one ambient loop: the hero canvas
+  mesh drifts particles continuously. User-requested ambient motion; the loop
+  is disabled entirely under `prefers-reduced-motion` (static frame instead).
+  No scroll-reveal, no floating UI elements, no parallax.
 
 ## Content rules
 - Every number shown is real or absent: 2+ years building, 3 shipped projects,
