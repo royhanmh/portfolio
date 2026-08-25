@@ -8,8 +8,17 @@ export default function ProjectCard({ project, onOpen }) {
 
   return (
     <article className="group grid grid-cols-1 items-center gap-6 border border-edge bg-panel p-6 transition-colors hover:border-edge-strong md:grid-cols-12">
-      <div className="relative h-44 w-full overflow-hidden border border-edge md:col-span-5">
-        {cover ? (
+      <div
+        className={`relative h-44 w-full overflow-hidden border border-edge logo-bg-${project.accent} md:col-span-5`}
+      >
+        {project.logo ? (
+          <img
+            src={project.logo.src}
+            alt={project.logo.alt}
+            className="h-full w-full object-contain p-12 transition-transform duration-300 group-hover:scale-[1.06]"
+            loading="lazy"
+          />
+        ) : cover ? (
           <img
             src={cover.src}
             alt={cover.alt}

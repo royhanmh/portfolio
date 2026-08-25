@@ -121,6 +121,28 @@
   .animate-status-pulse {
     animation: statusPulse 1.8s ease-in-out infinite;
   }
+
+  /* Per-project logo backdrops, tinted from each app's brand color. */
+  .logo-bg-pos {
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  }
+  .dark .logo-bg-pos {
+    background: linear-gradient(135deg, #1b2c4f, #101a30);
+  }
+
+  .logo-bg-timer {
+    background: linear-gradient(135deg, #f0efe8, #faf9f4);
+  }
+  .dark .logo-bg-timer {
+    background: linear-gradient(135deg, #232323, #151515);
+  }
+
+  .logo-bg-warmindo {
+    background: linear-gradient(135deg, #fee2e2, #fff5f5);
+  }
+  .dark .logo-bg-warmindo {
+    background: linear-gradient(135deg, #3a1618, #1e0d0e);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

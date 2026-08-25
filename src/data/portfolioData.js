@@ -7,6 +7,9 @@ import tempoFocus from "../assets/screenshots/tempo-focus.jpg";
 import warmindoPos from "../assets/screenshots/warmindo-pos.jpg";
 import warmindoStock from "../assets/screenshots/warmindo-stock.jpg";
 import warmindoReport from "../assets/screenshots/warmindo-report.jpg";
+import logoPadipos from "../assets/logos/padipos.webp";
+import logoTempo from "../assets/logos/tempo.webp";
+import logoWarmindo from "../assets/logos/warmindo.webp";
 
 export const NAV_ITEMS = [
   { id: "home" },
@@ -31,6 +34,7 @@ export const PROJECTS = [
   {
     id: "01",
     title: "PadiPOS",
+    logo: { src: logoPadipos, alt: "PadiPOS logo" },
     type: { en: "Point of Sale System", id: "Sistem Point of Sale" },
     description: {
       en: "A role-based point of sale for small businesses. Admin manages products and inventory while cashiers handle transactions, with reporting and account settings in one web application.",
@@ -52,6 +56,7 @@ export const PROJECTS = [
   {
     id: "02",
     title: "Tempo",
+    logo: { src: logoTempo, alt: "Tempo logo" },
     type: { en: "PWA / Timer Workspace", id: "PWA / Ruang Kerja Timer" },
     description: {
       en: "A personal timer workspace for deep work, study, workout rest, cooking, and custom activities. Timers stay accurate across refreshes and browser restarts.",
@@ -70,6 +75,7 @@ export const PROJECTS = [
   {
     id: "03",
     title: "Warmindo POS",
+    logo: { src: logoWarmindo, alt: "Warmindo POS logo" },
     type: { en: "Point of Sale System", id: "Sistem Point of Sale" },
     description: {
       en: "A POS system for small food businesses with fast ordering, inventory tracking, and stock visibility built around daily operations.",
