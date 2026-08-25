@@ -12,7 +12,6 @@ export const translations = {
       closeMenu: "Close menu",
       switchToLight: "Switch to light mode",
       switchToDark: "Switch to dark mode",
-      switchLang: "Switch language to Indonesian",
     },
     hero: {
       greeting: "HELLO, I'M",
@@ -94,7 +93,6 @@ export const translations = {
       closeMenu: "Tutup menu",
       switchToLight: "Ganti ke mode terang",
       switchToDark: "Ganti ke mode gelap",
-      switchLang: "Ganti bahasa ke Inggris",
     },
     hero: {
       greeting: "HALO, SAYA",
