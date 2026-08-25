@@ -1,8 +1,5 @@
 import { useEffect, useRef } from "react";
 
-// Identity motif: HUD mesh grid with ambient drifting particles.
-// User-requested motion (DESIGN.md: MOTION 2). Skipped entirely when the
-// visitor prefers reduced motion; a single static frame is drawn instead.
 export default function useCanvasMesh() {
   const canvasRef = useRef(null);
 
@@ -18,17 +15,17 @@ export default function useCanvasMesh() {
       return {
         edge: styles.getPropertyValue("--edge").trim() || "#223052",
         brand: styles.getPropertyValue("--brand").trim() || "#3b82f6",
-        alpha: document.documentElement.classList.contains("dark") ? 0.6 : 0.4,
+        alpha: document.documentElement.classList.contains("dark") ? 0.7 : 0.55,
       };
     };
 
     const spawnDots = () => {
-      dots = Array.from({ length: 25 }, () => ({
+      dots = Array.from({ length: 30 }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 1.8 + 0.8,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2.2 + 1,
       }));
     };
 
