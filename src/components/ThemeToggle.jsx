@@ -17,6 +17,11 @@ export default function ThemeToggle() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     localStorage.setItem(STORAGE_KEY, theme);
+
+    const favicon = document.querySelector('link[rel="icon"]');
+    if (favicon) {
+      favicon.href = theme === "dark" ? "/favicon.svg" : "/favicon-light.svg";
+    }
   }, [theme]);
 
   return (
