@@ -17,7 +17,7 @@ export const translations = {
       greeting: "HELLO, I'M",
       role: "WEB DEVELOPER",
       intro:
-        "I'm Muhammad Zaynurroyhan. I build clean React interfaces and practical Node.js backends, with a focus on usable flows, clear UI, and maintainable structure.",
+        "I build clean React interfaces and practical Node.js backends, with a focus on usable flows, clear UI, and maintainable structure.",
       cta: "VIEW MY WORK",
       scroll: "SCROLL",
       status: "OPEN TO WORK",
@@ -98,7 +98,7 @@ export const translations = {
       greeting: "HALO, SAYA",
       role: "PENGEMBANG WEB",
       intro:
-        "Saya Muhammad Zaynurroyhan. Saya membangun antarmuka React dan backend Node.js yang praktis, dengan fokus pada alur yang mudah digunakan dan struktur yang maintainable.",
+        "Saya membangun antarmuka React dan backend Node.js yang praktis, dengan fokus pada alur yang mudah digunakan dan struktur yang maintainable.",
       cta: "LIHAT KARYA SAYA",
       scroll: "GULIR",
       status: "SIAP BEKERJA",
