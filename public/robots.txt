@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://royhanmh.netlify.app/sitemap.xml
