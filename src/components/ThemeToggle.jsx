@@ -20,7 +20,8 @@ export default function ThemeToggle() {
 
     const favicon = document.querySelector('link[rel="icon"]');
     if (favicon) {
-      favicon.href = theme === "dark" ? "/favicon.svg" : "/favicon-light.svg";
+      favicon.href =
+        theme === "dark" ? "/favicon-512.png" : "/favicon-light-512.png";
     }
   }, [theme]);
 
