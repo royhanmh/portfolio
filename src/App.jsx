@@ -21,6 +21,11 @@ export default function App() {
   const overlayOpen = Boolean(selectedProject);
 
   useEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+
     const observers = SECTION_IDS.map((id) => {
       const element = document.getElementById(id);
       if (!element) return null;

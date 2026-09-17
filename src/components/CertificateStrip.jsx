@@ -6,32 +6,14 @@ import CertificateFrame from "./CertificateFrame";
 
 export default function CertificateStrip() {
   const { t, lang } = useLang();
-  const itemRefs = useRef([]);
-
-  useEffect(() => {
-    const middleIndex = Math.floor(CERTIFICATES.length / 2);
-    const middleItem = itemRefs.current[middleIndex];
-    if (middleItem) {
-      // Use setTimeout to ensure layout is finished
-      const timer = setTimeout(() => {
-        middleItem.scrollIntoView({
-          behavior: "auto",
-          block: "nearest",
-          inline: "center",
-        });
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   if (CERTIFICATES.length === 0) return null;
 
   return (
     <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto no-scrollbar p-1">
-      {CERTIFICATES.map((certificate, i) => (
+      {CERTIFICATES.map((certificate) => (
         <div
           key={certificate.id}
-          ref={(el) => (itemRefs.current[i] = el)}
           className="group w-[280px] shrink-0 snap-center text-left sm:w-[360px] lg:w-[400px]"
         >
           <a
