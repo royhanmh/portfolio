@@ -27,7 +27,7 @@ export default function CertificateFrame({
         />
       ))}
 
-      <div className="h-full w-full overflow-hidden border border-edge bg-panel-soft">
+      <div className="h-full w-full overflow-hidden bg-panel-soft">
         <img
           src={certificate.image}
           alt={t("certificates.imageAlt", { title: certificate.title })}
