@@ -20,6 +20,20 @@ hero and project previews so the page reads as one system.
 - Glow: logo mark only. Everything else matte (R-13 dose cap).
 - Radius: sharp corners (rounded-sm max) everywhere. Sharp edges are part of the HUD
   language (R-11 deliberate choice).
+- Certificates: a credential is a document, so the section is a horizontal
+  scroll-snap strip of framed documents, not a card grid (R-05, C-3). Frames use
+  3:2 with `object-contain` so the whole document is readable; letterboxing sits on
+  `panel-soft`, never white, so light theme stays matte.
+- Certificate overflow is signalled by peeking the next card (about 30 percent of a
+  card), so scroll chrome is hidden: no scrollbar competes with the HUD frame lines.
+- Credly badges stay a separate block from certificates: square verification seals
+  next to landscape documents would produce ragged rows, and the two things verify
+  differently (a badge links to its public Credly page, a certificate opens a
+  lightbox). Different content, different affordance.
+- Badge art is stored locally rather than hotlinked from `images.credly.com`:
+  a third-party origin can change paths silently, and a local WebP keeps the
+  section loading without a cross-origin request. Each badge still links out to
+  its public Credly page for verification.
 
 ## Dials
 ENERGY 2 / RHYTHM 2 / MOTION 2
@@ -33,3 +47,8 @@ ENERGY 2 / RHYTHM 2 / MOTION 2
 - Every number shown is real or absent: 2+ years building, 3 shipped projects,
   bootcamp graduate 2026. No uptime claims, no user counts, no percentages.
 - Project screenshots are labeled placeholders until real captures exist.
+- Certificates come from real scanned documents in `src/assets/certs`; Credly badges
+  come from the public profile at `credly.com/users/muhammad-zaynurroyhan`. Credential
+  titles are official credential names, so they are shown in English in both locales.
+- A certificate whose title or issuer is still unknown shows only its image and the
+  bracketed placeholder; metadata is omitted rather than invented (R-38).

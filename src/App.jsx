@@ -5,6 +5,8 @@ import ProjectCard from "./components/ProjectCard";
 import ProjectModal from "./components/ProjectModal";
 import About from "./components/About";
 import TechStack from "./components/TechStack";
+import CertificatesSection from "./components/CertificatesSection";
+import CertificateLightbox from "./components/CertificateLightbox";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import { PROJECTS } from "./data/portfolioData";
@@ -16,7 +18,9 @@ export default function App() {
   const { t } = useLang();
   const [activeSection, setActiveSection] = useState("home");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [certificateIndex, setCertificateIndex] = useState(null);
   const bodyOverflowRef = useRef("");
+  const overlayOpen = Boolean(selectedProject || certificateIndex !== null);
 
   useEffect(() => {
     const observers = SECTION_IDS.map((id) => {
@@ -35,7 +39,7 @@ export default function App() {
   }, [t]);
 
   useEffect(() => {
-    if (selectedProject) {
+    if (overlayOpen) {
       bodyOverflowRef.current = document.body.style.overflow;
       document.body.style.overflow = "hidden";
     } else {
@@ -44,7 +48,7 @@ export default function App() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [selectedProject]);
+  }, [overlayOpen]);
 
   const scrollToSection = (id) => {
     setActiveSection(id);
@@ -80,6 +84,8 @@ export default function App() {
 
         <TechStack />
 
+        <CertificatesSection onOpenCertificate={setCertificateIndex} />
+
         <ContactSection />
       </main>
 
@@ -89,6 +95,14 @@ export default function App() {
         <ProjectModal
           project={selectedProject}
           onClose={() => setSelectedProject(null)}
+        />
+      )}
+
+      {certificateIndex !== null && (
+        <CertificateLightbox
+          index={certificateIndex}
+          onIndexChange={setCertificateIndex}
+          onClose={() => setCertificateIndex(null)}
         />
       )}
     </div>

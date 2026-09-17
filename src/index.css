@@ -122,6 +122,16 @@
     animation: statusPulse 1.8s ease-in-out infinite;
   }
 
+  /* Horizontal certificate strip: scroll chrome hidden because the strip
+     communicates overflow by peeking the next card, not by a scrollbar. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Per-project logo backdrops, tinted from each app's brand color. */
   .logo-bg-pos {
     background: linear-gradient(135deg, #dbeafe, #eff6ff);
