@@ -3,7 +3,7 @@ import { useLang } from "../i18n/useLang";
 import BadgeRow from "./BadgeRow";
 import CertificateStrip from "./CertificateStrip";
 
-export default function CertificatesSection({ onOpenCertificate }) {
+export default function CertificatesSection() {
   const { t } = useLang();
 
   if (CERTIFICATES.length === 0) return null;
@@ -23,7 +23,7 @@ export default function CertificatesSection({ onOpenCertificate }) {
         </h2>
       </div>
 
-      <CertificateStrip onOpen={onOpenCertificate} />
+      <CertificateStrip />
 
       <BadgeRow />
     </section>

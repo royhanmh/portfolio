@@ -6,7 +6,6 @@ import ProjectModal from "./components/ProjectModal";
 import About from "./components/About";
 import TechStack from "./components/TechStack";
 import CertificatesSection from "./components/CertificatesSection";
-import CertificateLightbox from "./components/CertificateLightbox";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import { PROJECTS } from "./data/portfolioData";
@@ -18,9 +17,8 @@ export default function App() {
   const { t } = useLang();
   const [activeSection, setActiveSection] = useState("home");
   const [selectedProject, setSelectedProject] = useState(null);
-  const [certificateIndex, setCertificateIndex] = useState(null);
   const bodyOverflowRef = useRef("");
-  const overlayOpen = Boolean(selectedProject || certificateIndex !== null);
+  const overlayOpen = Boolean(selectedProject);
 
   useEffect(() => {
     const observers = SECTION_IDS.map((id) => {
@@ -84,7 +82,7 @@ export default function App() {
 
         <TechStack />
 
-        <CertificatesSection onOpenCertificate={setCertificateIndex} />
+        <CertificatesSection />
 
         <ContactSection />
       </main>
@@ -95,14 +93,6 @@ export default function App() {
         <ProjectModal
           project={selectedProject}
           onClose={() => setSelectedProject(null)}
-        />
-      )}
-
-      {certificateIndex !== null && (
-        <CertificateLightbox
-          index={certificateIndex}
-          onIndexChange={setCertificateIndex}
-          onClose={() => setCertificateIndex(null)}
         />
       )}
     </div>
