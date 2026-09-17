@@ -27,7 +27,7 @@ export default function CertificateStrip() {
   if (CERTIFICATES.length === 0) return null;
 
   return (
-    <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto no-scrollbar pb-1">
+    <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto no-scrollbar p-1">
       {CERTIFICATES.map((certificate, i) => (
         <div
           key={certificate.id}

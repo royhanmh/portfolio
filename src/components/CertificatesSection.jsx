@@ -11,7 +11,7 @@ export default function CertificatesSection() {
   return (
     <section
       id="certificates"
-      className="scroll-mt-24 space-y-8"
+      className="scroll-mt-24 space-y-8 px-2 sm:px-0"
       aria-labelledby="certificates-heading"
     >
       <div className="border-b border-edge pb-4">
