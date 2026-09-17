@@ -57,7 +57,7 @@ export default function App() {
     <div className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">
       <Header activeSection={activeSection} onNavigate={scrollToSection} />
 
-      <main className="relative z-10 mx-auto max-w-6xl space-y-16 px-6 pb-24 pt-12 sm:space-y-24">
+      <main className="relative z-10 mx-auto max-w-6xl space-y-16 px-6 pb-16 pt-12 sm:space-y-24 sm:pb-24">
         <Hero onNavigate={scrollToSection} />
 
         <section id="work" className="scroll-mt-24 space-y-8">
