@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { CERTIFICATES } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
 import { formatIssueDate } from "../utils/date";
@@ -5,6 +6,23 @@ import CertificateFrame from "./CertificateFrame";
 
 export default function CertificateStrip({ onOpen }) {
   const { t, lang } = useLang();
+  const itemRefs = useRef([]);
+
+  useEffect(() => {
+    const middleIndex = Math.floor(CERTIFICATES.length / 2);
+    const middleItem = itemRefs.current[middleIndex];
+    if (middleItem) {
+      // Use setTimeout to ensure layout is finished
+      const timer = setTimeout(() => {
+        middleItem.scrollIntoView({
+          behavior: "auto",
+          block: "nearest",
+          inline: "center",
+        });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   if (CERTIFICATES.length === 0) return null;
 
@@ -13,10 +31,11 @@ export default function CertificateStrip({ onOpen }) {
       {CERTIFICATES.map((certificate, i) => (
         <button
           key={certificate.id}
+          ref={(el) => (itemRefs.current[i] = el)}
           type="button"
           onClick={() => onOpen(i)}
           aria-label={t("certificates.openAria", { title: certificate.title })}
-          className="group w-[280px] shrink-0 snap-start text-left sm:w-[360px] lg:w-[400px]"
+          className="group w-[280px] shrink-0 snap-center text-left sm:w-[360px] lg:w-[400px]"
         >
           <CertificateFrame
             certificate={certificate}
