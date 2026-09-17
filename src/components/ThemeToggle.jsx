@@ -23,6 +23,11 @@ export default function ThemeToggle() {
       favicon.href =
         theme === "dark" ? "/favicon-512.png" : "/favicon-light-512.png";
     }
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+      themeColor.content = theme === "dark" ? "#0a0e17" : "#f7f9fc";
+    }
   }, [theme]);
 
   return (
