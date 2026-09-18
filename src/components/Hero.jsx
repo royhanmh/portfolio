@@ -20,11 +20,7 @@ export default function Hero({ onNavigate }) {
       </div>
 
       <div className="max-w-xl flex-1 space-y-6">
-        <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-brand-bright">
-          <span
-            className="inline-block h-2 w-2 rounded-full bg-ok animate-status-pulse"
-            aria-hidden="true"
-          ></span>
+        <p className="font-mono text-xs uppercase tracking-widest text-brand-bright">
           {t("hero.greeting")}
         </p>
 
