@@ -13,6 +13,7 @@ export default function CertificateFrame({
   certificate,
   className = "",
   fit = "cover",
+  loading = "lazy",
 }) {
   const { t } = useLang();
   if (!certificate) return null;
@@ -34,7 +35,7 @@ export default function CertificateFrame({
           className={`h-full w-full ${
             fit === "contain" ? "object-contain" : "object-cover object-top"
           }`}
-          loading="lazy"
+          loading={loading}
         />
       </div>
     </div>

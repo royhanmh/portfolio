@@ -1,7 +1,7 @@
 import { CERTIFICATES } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
 import BadgeRow from "./BadgeRow";
-import CertificateStrip from "./CertificateStrip";
+import CertificateCarousel from "./CertificateCarousel";
 
 export default function CertificatesSection() {
   const { t } = useLang();
@@ -23,7 +23,7 @@ export default function CertificatesSection() {
         </h2>
       </div>
 
-      <CertificateStrip />
+      <CertificateCarousel />
 
       <BadgeRow />
     </section>
