@@ -62,11 +62,11 @@ export default function App() {
     <div className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">
       <Header activeSection={activeSection} onNavigate={scrollToSection} />
 
-      <main className="relative z-10 mx-auto max-w-6xl space-y-16 px-6 pb-16 pt-12 sm:space-y-24 sm:pb-24">
+      <main className="relative z-10 mx-auto max-w-6xl space-y-12 px-6 pb-12 pt-12 sm:space-y-16 sm:pb-16">
         <Hero onNavigate={scrollToSection} />
 
-        <section id="work" className="scroll-mt-24 space-y-8">
-          <div className="border-b border-edge pb-4">
+        <section id="work" className="scroll-mt-24 space-y-6">
+          <div className="border-b border-edge pb-3">
             <h2 className="font-mono text-xs uppercase tracking-widest text-brand-bright">
               {t("sections.work")}
             </h2>

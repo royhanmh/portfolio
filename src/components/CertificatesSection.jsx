@@ -11,10 +11,10 @@ export default function CertificatesSection() {
   return (
     <section
       id="certificates"
-      className="scroll-mt-24 space-y-8 px-2 sm:px-0"
+      className="scroll-mt-24 space-y-6 px-2 sm:px-0"
       aria-labelledby="certificates-heading"
     >
-      <div className="border-b border-edge pb-4">
+      <div className="border-b border-edge pb-3">
         <h2
           id="certificates-heading"
           className="font-mono text-xs uppercase tracking-widest text-brand-bright"

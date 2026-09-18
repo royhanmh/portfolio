@@ -6,8 +6,8 @@ export default function TechStack() {
   const { t } = useLang();
 
   return (
-    <section className="space-y-8" aria-labelledby="tech-stack-heading">
-      <div className="border-b border-edge pb-4">
+    <section className="space-y-6" aria-labelledby="tech-stack-heading">
+      <div className="border-b border-edge pb-3">
         <h2
           id="tech-stack-heading"
           className="font-mono text-xs uppercase tracking-widest text-brand-bright"

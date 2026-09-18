@@ -13,8 +13,8 @@ export default function About({ onNavigate }) {
   const { t } = useLang();
 
   return (
-    <section id="about" className="scroll-mt-24 space-y-12">
-      <div className="border-b border-edge pb-4">
+    <section id="about" className="scroll-mt-24 space-y-8">
+      <div className="border-b border-edge pb-3">
         <h2 className="font-mono text-xs uppercase tracking-widest text-brand-bright">
           {t("sections.about")}
         </h2>
