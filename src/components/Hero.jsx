@@ -96,14 +96,6 @@ export default function Hero({ onNavigate }) {
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
-
-              <p className="mt-3 flex items-center justify-center gap-1.5 font-mono text-[9px] text-dim">
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-ok animate-status-pulse"
-                  aria-hidden="true"
-                ></span>
-                {t("hero.status")}
-              </p>
             </div>
           </div>
 
