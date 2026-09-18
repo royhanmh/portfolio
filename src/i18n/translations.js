@@ -64,7 +64,10 @@ export const translations = {
       nextSlide: "Next screenshot",
       gotoSlide: "Go to screenshot {n}",
       slideStatus: "Screenshot {n} of {total}",
+      slideCount: "{n} / {total}",
       carouselLabel: "{title} screenshots",
+      pauseAutoplay: "Pause screenshot rotation",
+      playAutoplay: "Play screenshot rotation",
     },
     about: {
       headlineA: "I'M A PROBLEM SOLVER WHO LOVES TO",
@@ -168,7 +171,10 @@ export const translations = {
       nextSlide: "Tangkapan layar berikutnya",
       gotoSlide: "Ke tangkapan layar {n}",
       slideStatus: "Tangkapan layar {n} dari {total}",
+      slideCount: "{n} / {total}",
       carouselLabel: "Tangkapan layar {title}",
+      pauseAutoplay: "Hentikan rotasi tangkapan layar",
+      playAutoplay: "Putar rotasi tangkapan layar",
     },
     about: {
       headlineA: "SAYA SENANG MEMEBERI SOLUSI",

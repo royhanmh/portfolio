@@ -1,33 +1,24 @@
 import { ArrowRight, ArrowUpRight, Github } from "lucide-react";
 import { useLang } from "../i18n/useLang";
-import PreviewPlaceholder from "./PreviewPlaceholder";
+import ScreenshotCarousel from "./ScreenshotCarousel";
 
 export default function ProjectCard({ project, onOpen }) {
   const { t, lang } = useLang();
-  const cover = project.screenshots[0];
+  const stagger = (Number(project.id) - 1) * 1200;
 
   return (
     <article className="group grid grid-cols-1 items-center gap-6 border border-edge bg-panel p-6 transition-colors hover:border-edge-strong md:grid-cols-12">
-      <div
-        className={`relative h-44 w-full overflow-hidden border border-edge logo-bg-${project.accent} md:col-span-5`}
-      >
-        {project.logo ? (
-          <img
-            src={project.logo.src}
-            alt={project.logo.alt}
-            className="h-full w-full object-contain p-12 transition-transform duration-300 group-hover:scale-[1.06]"
-            loading="lazy"
-          />
-        ) : cover ? (
-          <img
-            src={cover.src}
-            alt={cover.alt}
-            className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
-            loading="lazy"
-          />
-        ) : (
-          <PreviewPlaceholder accent={project.accent} />
-        )}
+      <div className="w-full md:col-span-5">
+        <ScreenshotCarousel
+          screenshots={project.screenshots}
+          accent={project.accent}
+          title={project.title}
+          autoPlay
+          interval={3500}
+          startDelay={stagger}
+          showArrows={false}
+          showDots
+        />
       </div>
 
       <div className="flex flex-col justify-between gap-4 md:col-span-7">

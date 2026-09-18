@@ -117,9 +117,28 @@
   }
 }
 
+@keyframes carousel-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @layer utilities {
   .animate-status-pulse {
     animation: statusPulse 1.8s ease-in-out infinite;
+  }
+
+  /* Carousel autoplay progress: thin HUD bar under the media.
+     Duration is set inline from the autoplay interval. The global
+     prefers-reduced-motion block below neutralizes it. */
+  .animate-carousel-progress {
+    animation-name: carousel-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    transform-origin: left center;
   }
 
   /* Horizontal certificate strip: scroll chrome hidden because the strip
