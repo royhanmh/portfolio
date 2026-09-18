@@ -8,26 +8,63 @@ import CertificateFrame from "./CertificateFrame";
 const SWIPE_THRESHOLD = 40;
 const FLICK_VELOCITY = 0.5;
 const AUTOPLAY_INTERVAL = 5000;
+const TRANSITION_MS = 350;
 
 const pad = (n) => String(n).padStart(2, "0");
 
 export default function CertificateCarousel() {
   const { t, lang } = useLang();
-  const [index, setIndex] = useState(0);
+  // Extended loop track of 9 slides: every position in the real window
+  // (3..5) and one step beyond it in either direction always has full
+  // neighbors, so fast repeated swipes can never expose a blank slot.
+  const [pos, setPos] = useState(3);
+  const [wide, setWide] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(min-width: 1024px)").matches,
+  );
   const [hoverPaused, setHoverPaused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [jumping, setJumping] = useState(false);
   const startX = useRef(null);
   const moves = useRef([]);
+  const jumpTimer = useRef(null);
 
   const total = CERTIFICATES.length;
-  const go = (delta) =>
-    setIndex((current) => (current + delta + total) % total);
-  const goTo = (i) => setIndex(((i % total) + total) % total);
-  const active = CERTIFICATES[index];
+  // Desktop (lg): 3 full cards side by side. Mobile: one card + peeks.
+  const basis = wide ? 100 / 3 : 70;
+  // Track position 3 maps to real certificate 0.
+  const activeIndex = (((pos - 3) % total) + total) % total;
+  const active = CERTIFICATES[activeIndex];
 
   const autoplayPaused = hoverPaused || userPaused || isDragging;
+
+  useEffect(() => {
+    const query = window.matchMedia?.("(min-width: 1024px)");
+    if (!query) return;
+    const onChange = (e) => setWide(e.matches);
+    query.addEventListener?.("change", onChange);
+    return () => query.removeEventListener?.("change", onChange);
+  }, []);
+
+  // Seamless loop: positions outside 2..4 show an arrangement identical to a
+  // real position, so snapping back is invisible. The effect cleanup clears
+  // the pending jump if the user swipes again mid-window.
+  useEffect(() => {
+    if (pos < 3 || pos > 5) {
+      jumpTimer.current = setTimeout(() => {
+        setJumping(true);
+        setPos((cur) => (cur < 3 ? cur + total : cur > 5 ? cur - total : cur));
+      }, TRANSITION_MS + 30);
+      return () => clearTimeout(jumpTimer.current);
+    }
+    if (jumping) {
+      const id = setTimeout(() => setJumping(false), 30);
+      return () => clearTimeout(id);
+    }
+  }, [pos, total, jumping]);
 
   useEffect(() => {
     if (total < 2 || autoplayPaused) return;
@@ -37,10 +74,31 @@ export default function CertificateCarousel() {
     )
       return;
     const id = setInterval(() => {
-      setIndex((current) => (current + 1) % total);
+      setPos((current) => current + 1);
     }, AUTOPLAY_INTERVAL);
     return () => clearInterval(id);
   }, [total, autoplayPaused]);
+
+  // A navigation that lands mid-jump flushes the pending snap first, so no
+  // input is ever swallowed inside the normalization window.
+  const flushJump = () => {
+    clearTimeout(jumpTimer.current);
+    setJumping(false);
+  };
+
+  const go = (delta) => {
+    if (total < 2) return;
+    if (jumping) flushJump();
+    setPos((cur) => {
+      const base = cur < 3 ? cur + total : cur > 5 ? cur - total : cur;
+      return base + delta;
+    });
+  };
+  const goTo = (i) => {
+    if (total < 2) return;
+    if (jumping) flushJump();
+    setPos(i + 3);
+  };
 
   const onKeyDown = (e) => {
     if (total < 2) return;
@@ -116,9 +174,14 @@ export default function CertificateCarousel() {
 
   if (total === 0 || !active) return null;
 
+  const order = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(
+    (trackPos) => (((trackPos - 3) % total) + total) % total,
+  );
+  const animating = isDragging || jumping;
+
   return (
     <div
-      className="mx-auto w-full max-w-2xl"
+      className="w-full"
       onKeyDown={onKeyDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -137,49 +200,51 @@ export default function CertificateCarousel() {
         className="relative w-full cursor-grab touch-pan-y overflow-hidden select-none active:cursor-grabbing"
       >
         <div
-          className="flex"
+          className="flex items-center"
           style={{
-            transform: `translateX(calc(${15 - index * 70}% + ${dragX}px))`,
-            transition: isDragging
-              ? "none"
-              : "transform 350ms cubic-bezier(0.2, 0, 0, 1)",
+            transform: `translateX(calc(${(100 - basis) / 2 - pos * basis}% + ${dragX}px))`,
+            transition: animating ? "none" : `transform ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1)`,
           }}
         >
-          {CERTIFICATES.map((certificate, i) => (
-            <div
-              key={certificate.id}
-              className="w-full shrink-0 grow-0"
-              style={{ flexBasis: "70%" }}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={t("certificates.slideStatus", {
-                n: i + 1,
-                total,
-              })}
-              aria-hidden={i !== index}
-            >
+          {order.map((realIndex, trackPos) => {
+            const certificate = CERTIFICATES[realIndex];
+            const isClone = trackPos < 3 || trackPos > 5;
+            const focused = trackPos === pos;
+            return (
               <div
-                className="w-full px-2"
-                style={{
-                  transform: i === index ? "scale(1)" : "scale(0.92)",
-                  opacity: i === index ? 1 : 0.6,
-                  boxShadow:
-                    i === index
+                key={`${certificate.id}-${trackPos}`}
+                className="w-full shrink-0 grow-0"
+                style={{ flexBasis: `${basis}%` }}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={t("certificates.slideStatus", {
+                  n: realIndex + 1,
+                  total,
+                })}
+                aria-hidden={isClone || !focused}
+              >
+                <div
+                  className="w-full px-2"
+                  style={{
+                    transform: focused ? "scale(1)" : "scale(0.92)",
+                    opacity: focused ? 1 : 0.75,
+                    boxShadow: focused
                       ? "0 0 30px rgba(0, 0, 0, 0.18)"
                       : "none",
-                  transition: isDragging
-                    ? "none"
-                    : "transform 350ms cubic-bezier(0.2, 0, 0, 1), opacity 350ms cubic-bezier(0.2, 0, 0, 1), box-shadow 350ms cubic-bezier(0.2, 0, 0, 1)",
-                }}
-              >
-                <CertificateFrame
-                  certificate={certificate}
-                  className="aspect-[3/2] w-full"
-                  loading={i === 0 ? "eager" : "lazy"}
-                />
+                    transition: animating
+                      ? "none"
+                      : `transform ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1), opacity ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1), box-shadow ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1)`,
+                  }}
+                >
+                  <CertificateFrame
+                    certificate={certificate}
+                    className="aspect-[3/2] w-full"
+                    loading="eager"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {total > 1 && !autoplayPaused && (
@@ -188,7 +253,7 @@ export default function CertificateCarousel() {
             className="mx-auto mt-2 h-0.5 w-full bg-transparent"
           >
             <div
-              key={`${index}-${AUTOPLAY_INTERVAL}`}
+              key={`${pos}-${AUTOPLAY_INTERVAL}`}
               className="animate-carousel-progress h-full w-full bg-brand-bright motion-reduce:hidden"
               style={{ animationDuration: `${AUTOPLAY_INTERVAL}ms` }}
             />
@@ -243,7 +308,7 @@ export default function CertificateCarousel() {
             className="font-mono text-[10px] tracking-widest text-dim"
           >
             {t("certificates.slideCount", {
-              n: pad(index + 1),
+              n: pad(activeIndex + 1),
               total: pad(total),
             })}
           </p>
@@ -254,13 +319,13 @@ export default function CertificateCarousel() {
                 type="button"
                 onClick={() => goTo(i)}
                 aria-label={t("certificates.gotoSlide", { n: i + 1 })}
-                aria-current={i === index ? "true" : undefined}
+                aria-current={i === activeIndex ? "true" : undefined}
                 className="flex h-11 w-11 items-center justify-center"
               >
                 <span
                   aria-hidden="true"
                   className={`block h-2.5 border transition-all duration-300 ${
-                    i === index
+                    i === activeIndex
                       ? "w-6 border-brand-bright bg-brand-bright"
                       : "w-2.5 border-edge-strong bg-transparent hover:border-brand"
                   }`}
@@ -289,7 +354,7 @@ export default function CertificateCarousel() {
       )}
 
       <div aria-live="polite" className="sr-only">
-        {t("certificates.slideStatus", { n: index + 1, total })}
+        {t("certificates.slideStatus", { n: activeIndex + 1, total })}
       </div>
     </div>
   );
