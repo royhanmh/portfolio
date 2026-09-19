@@ -95,13 +95,18 @@ export default function Hero({ onNavigate }) {
                 aria-hidden="true"
               ></span>
 
-              <div className="relative h-full w-full overflow-hidden border border-brand/40 bg-canvas">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 border border-brand/40 bg-canvas"
+              />
+              <div className="absolute inset-0 overflow-hidden">
                 <img
                   src={profileAvatar}
                   alt="Portrait of Muhammad Zaynurroyhan"
                   width="224"
                   height="224"
                   className="absolute inset-0 h-full w-full origin-top scale-[1.15] object-cover object-top"
+                  style={{ zIndex: 2 }}
                 />
               </div>
             </div>
