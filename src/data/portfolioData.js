@@ -168,7 +168,7 @@ export const BADGES = [
 ];
 
 export const STATS = [
-  { key: "years", icon: "terminal", value: "2+" },
+  { key: "years", icon: "terminal", value: "3+" },
   { key: "projects", icon: "package", value: "3" },
   { key: "bootcamp", icon: "graduation", value: "2026" },
   { key: "location", icon: "mapPin", value: "ID" },
