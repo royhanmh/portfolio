@@ -1,11 +1,12 @@
 import { ArrowRight } from "lucide-react";
 import useCanvasMesh from "../hooks/useCanvasMesh";
 import { useLang } from "../i18n/useLang";
-import profileAvatar from "../assets/profile-avatar.webp";
+import profileAvatar from "../assets/profile-avatar(2).png";
 
 export default function Hero({ onNavigate }) {
   const { t } = useLang();
-  const canvasRef = useCanvasMesh();
+  const meshRef = useCanvasMesh("mesh");
+  const particleRef = useCanvasMesh("particles");
 
   return (
     <section
@@ -59,8 +60,15 @@ export default function Hero({ onNavigate }) {
       <div className="relative flex w-full max-w-md flex-1 items-center justify-center">
         <div className="relative h-auto w-full overflow-hidden border border-edge bg-panel/60 p-6 shadow-[0_0_30px_rgba(0,0,0,0.15)] dark:shadow-[0_0_30px_rgba(0,0,0,0.5)]">
           <canvas
-            ref={canvasRef}
+            ref={meshRef}
+            aria-hidden="true"
             className="pointer-events-none absolute inset-0"
+          />
+          <canvas
+            ref={particleRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{ zIndex: 1 }}
           />
 
           <div className="relative z-10 flex items-center justify-between border-b border-edge pb-2 font-mono text-[10px] text-dim">
@@ -68,7 +76,7 @@ export default function Hero({ onNavigate }) {
             <span>01</span>
           </div>
 
-          <div className="relative z-10 my-10 self-center sm:my-16">
+          <div className="relative my-10 self-center sm:my-16">
             <div className="relative mx-auto h-48 w-48 sm:h-56 sm:w-56">
               <span
                 className="-left-1 -top-1 absolute z-20 h-2 w-2 border-l-2 border-t-2 border-brand-bright"
@@ -93,7 +101,7 @@ export default function Hero({ onNavigate }) {
                   alt="Portrait of Muhammad Zaynurroyhan"
                   width="224"
                   height="224"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full origin-top scale-[1.15] object-cover object-top"
                 />
               </div>
             </div>

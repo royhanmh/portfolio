@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
 
-export default function useCanvasMesh() {
+// Splits the hero backdrop into two stackable layers so the portrait can sit
+// between them: mesh grid at the very bottom, drifting particles above the
+// photo. mode "mesh" draws the static grid once per resize; mode "particles"
+// runs the dot loop on a transparent surface.
+export default function useCanvasMesh(mode = "full") {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -19,20 +23,8 @@ export default function useCanvasMesh() {
       };
     };
 
-    const spawnDots = () => {
-      dots = Array.from({ length: 30 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2.2 + 1,
-      }));
-    };
-
-    const drawFrame = () => {
-      const { edge, brand, alpha } = readColors();
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const drawGrid = () => {
+      const { edge } = readColors();
 
       ctx.strokeStyle = edge;
       ctx.globalAlpha = 0.35;
@@ -52,6 +44,22 @@ export default function useCanvasMesh() {
         ctx.stroke();
       }
 
+      ctx.globalAlpha = 1;
+    };
+
+    const spawnDots = () => {
+      dots = Array.from({ length: 30 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2.2 + 1,
+      }));
+    };
+
+    const drawDots = () => {
+      const { brand, alpha } = readColors();
+
       ctx.fillStyle = brand;
       ctx.globalAlpha = alpha;
       for (const dot of dots) {
@@ -68,22 +76,38 @@ export default function useCanvasMesh() {
       ctx.globalAlpha = 1;
     };
 
+    const drawFrame = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (mode !== "particles") drawGrid();
+      if (mode !== "mesh") drawDots();
+    };
+
+    const sizeCanvas = () => {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    };
+
     let resizeHandler;
 
     if (
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
       resizeHandler = () => {
-        canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = canvas.parentElement.clientHeight;
+        sizeCanvas();
         dots = [];
+        drawFrame();
+      };
+      resizeHandler();
+    } else if (mode === "mesh") {
+      // Static layer: no animation loop, redraw only on resize or theme flip.
+      resizeHandler = () => {
+        sizeCanvas();
         drawFrame();
       };
       resizeHandler();
     } else {
       resizeHandler = () => {
-        canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = canvas.parentElement.clientHeight;
+        sizeCanvas();
         spawnDots();
       };
       resizeHandler();
@@ -109,7 +133,7 @@ export default function useCanvasMesh() {
       observer.disconnect();
       themeWatcher.disconnect();
     };
-  }, []);
+  }, [mode]);
 
   return canvasRef;
 }
