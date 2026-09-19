@@ -1,10 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 import { BADGES, CREDLY_PROFILE } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
-import { formatIssueDate } from "../utils/date";
 
 export default function BadgeRow() {
-  const { t, lang } = useLang();
+  const { t } = useLang();
 
   if (BADGES.length === 0) return null;
 
@@ -51,7 +50,7 @@ export default function BadgeRow() {
                   {badge.title}
                 </p>
                 <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-dim">
-                  {badge.issuer} · {formatIssueDate(badge.issued, lang)}
+                  {badge.issuer}
                 </p>
               </div>
               <span className="mt-auto flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-brand-bright">
