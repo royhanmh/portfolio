@@ -105,7 +105,7 @@ export default function Hero({ onNavigate }) {
                   alt="Portrait of Muhammad Zaynurroyhan"
                   width="224"
                   height="224"
-                  className="absolute inset-0 h-full w-full origin-top scale-[1.15] object-cover object-top"
+                  className="absolute inset-0 h-full w-full origin-top scale-[1.0] object-cover object-top"
                   style={{ zIndex: 2 }}
                 />
               </div>
