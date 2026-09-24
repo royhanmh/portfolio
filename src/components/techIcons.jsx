@@ -22,7 +22,10 @@ function reactIcon() {
 
 function javaScriptIcon() {
   return (
-    <div className="flex h-8 w-8 items-end justify-end bg-[#F7DF1E] p-1 text-xs font-bold text-black">
+    <div
+      aria-hidden="true"
+      className="flex h-8 w-8 items-end justify-end bg-[#F7DF1E] p-1 text-xs font-bold text-black"
+    >
       JS
     </div>
   );
@@ -46,7 +49,10 @@ function nodeIcon() {
 
 function expressIcon() {
   return (
-    <div className="flex h-8 w-8 items-center justify-center border border-current text-xs font-bold italic tracking-tight text-ink">
+    <div
+      aria-hidden="true"
+      className="flex h-8 w-8 items-center justify-center border border-current text-xs font-bold italic tracking-tight text-ink"
+    >
       ex
     </div>
   );
@@ -54,7 +60,10 @@ function expressIcon() {
 
 function mySQLIcon() {
   return (
-    <div className="flex h-8 w-8 items-center justify-center bg-[#00758F] text-[9px] font-bold text-white">
+    <div
+      aria-hidden="true"
+      className="flex h-8 w-8 items-center justify-center bg-[#00758F] text-[9px] font-bold text-white"
+    >
       SQL
     </div>
   );
@@ -70,7 +79,10 @@ function gitIcon() {
 
 function restApiIcon() {
   return (
-    <div className="flex h-8 w-8 items-center justify-center border-2 border-dashed border-current font-mono text-[8px] font-bold text-brand-bright">
+    <div
+      aria-hidden="true"
+      className="flex h-8 w-8 items-center justify-center border-2 border-dashed border-current font-mono text-[8px] font-bold text-brand-bright"
+    >
       {"{ }"}
     </div>
   );
