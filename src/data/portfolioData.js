@@ -18,9 +18,10 @@ import badgePowerPlatform from "../assets/badges/power-platform-fundamentals.web
 import badgeSecurityIdentity from "../assets/badges/security-compliance-identity-fundamentals.webp";
 
 export const NAV_ITEMS = [
-  { id: "home" },
   { id: "work" },
   { id: "about" },
+  { id: "stack" },
+  { id: "certificates" },
   { id: "contact" },
 ];
 

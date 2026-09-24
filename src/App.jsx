@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import { PROJECTS } from "./data/portfolioData";
 import { useLang } from "./i18n/useLang";
 
-const SECTION_IDS = ["home", "work", "about", "contact"];
+const SECTION_IDS = ["home", "work", "about", "stack", "certificates", "contact"];
 
 export default function App() {
   const { t } = useLang();

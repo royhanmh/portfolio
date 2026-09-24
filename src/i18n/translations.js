@@ -1,10 +1,11 @@
 export const translations = {
   en: {
     nav: {
-      home: "01 / HOME",
-      work: "02 / WORK",
-      about: "03 / ABOUT",
-      contact: "04 / CONTACT",
+      work: "01 / WORK",
+      about: "02 / ABOUT",
+      stack: "03 / TECH STACK",
+      certificates: "04 / CERTIFICATES",
+      contact: "05 / CONTACT",
     },
     header: {
       backToTop: "Back to top",
@@ -124,10 +125,11 @@ export const translations = {
   },
   id: {
     nav: {
-      home: "01 / BERANDA",
-      work: "02 / KARYA",
-      about: "03 / TENTANG",
-      contact: "04 / KONTAK",
+      work: "01 / KARYA",
+      about: "02 / TENTANG",
+      stack: "03 / TEKNOLOGI",
+      certificates: "04 / SERTIFIKAT",
+      contact: "05 / KONTAK",
     },
     header: {
       backToTop: "Kembali ke atas",

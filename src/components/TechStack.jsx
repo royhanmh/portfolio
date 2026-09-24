@@ -13,7 +13,7 @@ export default function TechStack() {
   const { t } = useLang();
 
   return (
-    <section className="space-y-6" aria-labelledby="tech-stack-heading">
+    <section id="stack" className="scroll-mt-24 space-y-6" aria-labelledby="tech-stack-heading">
       <div className="border-b border-edge pb-3">
         <h2
           id="tech-stack-heading"
