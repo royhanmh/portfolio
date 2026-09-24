@@ -73,7 +73,11 @@ export default function Header({ activeSection, onNavigate }) {
             className="flex h-11 items-center justify-center gap-1 border border-edge px-3 font-mono text-xs transition-colors hover:border-edge-strong"
           >
             <span
-              className={lang === "en" ? "font-bold text-ink" : "text-dim"}
+              className={
+                lang === "en"
+                  ? "font-bold text-ink underline decoration-brand-bright decoration-2 underline-offset-4"
+                  : "text-dim"
+              }
               aria-current={lang === "en" ? "true" : undefined}
             >
               EN
@@ -82,7 +86,11 @@ export default function Header({ activeSection, onNavigate }) {
               |
             </span>
             <span
-              className={lang === "id" ? "font-bold text-ink" : "text-dim"}
+              className={
+                lang === "id"
+                  ? "font-bold text-ink underline decoration-brand-bright decoration-2 underline-offset-4"
+                  : "text-dim"
+              }
               aria-current={lang === "id" ? "true" : undefined}
             >
               ID

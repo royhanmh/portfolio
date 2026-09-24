@@ -25,7 +25,9 @@ export default function App() {
       history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
+  }, []);
 
+  useEffect(() => {
     const observers = SECTION_IDS.map((id) => {
       const element = document.getElementById(id);
       if (!element) return null;
@@ -39,7 +41,7 @@ export default function App() {
       return observer;
     });
     return () => observers.forEach((observer) => observer?.disconnect());
-  }, [t]);
+  }, []);
 
   useEffect(() => {
     if (overlayOpen) {
