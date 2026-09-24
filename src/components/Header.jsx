@@ -61,6 +61,13 @@ export default function Header({ activeSection, onNavigate }) {
         <div className="flex items-center gap-2">
           <button
             type="button"
+            onClick={() => handleNavigate("contact")}
+            className="mr-1 hidden h-11 items-center border border-brand bg-brand px-4 font-mono text-xs font-semibold tracking-wider text-white transition-colors hover:bg-brand-bright md:flex"
+          >
+            {t("about.cta")}
+          </button>
+          <button
+            type="button"
             onClick={toggleLang}
             aria-label="EN | ID, switch language to Indonesian"
             className="flex h-11 items-center justify-center gap-1 border border-edge px-3 font-mono text-xs transition-colors hover:border-edge-strong"
