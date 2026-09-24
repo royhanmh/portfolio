@@ -44,11 +44,11 @@ export default function Hero({ onNavigate }) {
         <div className="flex flex-wrap items-center gap-4 pt-4">
           <button
             type="button"
-            onClick={() => onNavigate("work")}
+            onClick={() => onNavigate("contact")}
             className="group flex items-center border border-edge-strong bg-panel transition-colors hover:border-brand"
           >
             <span className="px-6 py-3 font-mono text-xs font-semibold tracking-wider text-ink">
-              {t("hero.cta")}
+              {t("about.cta")}
             </span>
             <span className="flex items-center justify-center bg-brand p-3 text-white transition-colors group-hover:bg-brand-bright">
               <ArrowRight size={16} aria-hidden="true" />
@@ -56,10 +56,10 @@ export default function Hero({ onNavigate }) {
           </button>
           <button
             type="button"
-            onClick={() => onNavigate("contact")}
+            onClick={() => onNavigate("work")}
             className="flex items-center border border-edge-strong px-6 py-3 font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
           >
-            {t("about.cta")}
+            {t("hero.cta")}
           </button>
         </div>
       </div>
