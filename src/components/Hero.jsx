@@ -41,7 +41,7 @@ export default function Hero({ onNavigate }) {
           {t("hero.intro")}
         </p>
 
-        <div className="flex items-center gap-4 pt-4">
+        <div className="flex flex-wrap items-center gap-4 pt-4">
           <button
             type="button"
             onClick={() => onNavigate("work")}
@@ -53,6 +53,13 @@ export default function Hero({ onNavigate }) {
             <span className="flex items-center justify-center bg-brand p-3 text-white transition-colors group-hover:bg-brand-bright">
               <ArrowRight size={16} aria-hidden="true" />
             </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onNavigate("contact")}
+            className="flex items-center border border-edge-strong px-6 py-3 font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
+          >
+            {t("about.cta")}
           </button>
         </div>
       </div>
