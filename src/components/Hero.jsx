@@ -105,7 +105,7 @@ export default function Hero({ onNavigate }) {
                   alt="Portrait of Muhammad Zaynurroyhan"
                   width="512"
                   height="909"
-                  fetchPriority="high"
+                  fetchpriority="high"
                   className="absolute inset-0 h-full w-full origin-top scale-[1.0] object-cover object-top"
                   style={{ zIndex: 2 }}
                 />
