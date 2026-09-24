@@ -59,7 +59,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">
+    <div className="min-h-screen overflow-x-clip bg-canvas text-ink antialiased">
       <Header activeSection={activeSection} onNavigate={scrollToSection} />
 
       <main className="relative z-10 mx-auto max-w-6xl space-y-12 px-6 pb-12 pt-12 sm:space-y-16 sm:pb-16">
