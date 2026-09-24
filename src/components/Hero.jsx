@@ -73,7 +73,7 @@ export default function Hero({ onNavigate }) {
 
           <div className="relative z-10 flex items-center justify-between border-b border-edge pb-2 font-mono text-[10px] text-dim">
             <span>&lt;CODE&gt;</span>
-            <span>01</span>
+            <span>PORTFOLIO</span>
           </div>
 
           <div className="relative my-10 self-center sm:my-16">
@@ -113,7 +113,7 @@ export default function Hero({ onNavigate }) {
           </div>
 
           <div className="relative z-10 flex items-center justify-between border-t border-edge pt-2 font-mono text-[10px] text-dim">
-            <span>03</span>
+            <span>SUKABUMI, ID</span>
             <span>&lt;/DESIGN&gt;</span>
           </div>
 
