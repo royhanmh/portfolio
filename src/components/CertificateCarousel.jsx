@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { CERTIFICATES } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
 import { formatIssueDate } from "../utils/date";
@@ -12,7 +12,7 @@ const TRANSITION_MS = 350;
 
 const pad = (n) => String(n).padStart(2, "0");
 
-export default function CertificateCarousel() {
+export default function CertificateCarousel({ autoPlay = false }) {
   const { t, lang } = useLang();
   // Extended loop track of 9 slides: every position in the real window
   // (3..5) and one step beyond it in either direction always has full
@@ -67,7 +67,7 @@ export default function CertificateCarousel() {
   }, [pos, total, jumping]);
 
   useEffect(() => {
-    if (total < 2 || autoplayPaused) return;
+    if (!autoPlay || total < 2 || autoplayPaused) return;
     if (
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
@@ -247,7 +247,7 @@ export default function CertificateCarousel() {
           })}
         </div>
 
-        {total > 1 && !autoplayPaused && (
+        {autoPlay && total > 1 && !autoplayPaused && (
           <div
             aria-hidden="true"
             className="mx-auto mt-2 h-0.5 w-full bg-transparent"
@@ -333,23 +333,44 @@ export default function CertificateCarousel() {
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={() => setUserPaused((v) => !v)}
-            aria-label={
-              userPaused
-                ? t("certificates.playAutoplay")
-                : t("certificates.pauseAutoplay")
-            }
-            aria-pressed={userPaused}
-            className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
-          >
-            {userPaused ? (
-              <Play size={14} aria-hidden="true" />
-            ) : (
-              <Pause size={14} aria-hidden="true" />
-            )}
-          </button>
+          {autoPlay ? (
+            <button
+              type="button"
+              onClick={() => setUserPaused((v) => !v)}
+              aria-label={
+                userPaused
+                  ? t("certificates.playAutoplay")
+                  : t("certificates.pauseAutoplay")
+              }
+              aria-pressed={userPaused}
+              className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
+            >
+              {userPaused ? (
+                <Play size={14} aria-hidden="true" />
+              ) : (
+                <Pause size={14} aria-hidden="true" />
+              )}
+            </button>
+          ) : (
+            <span className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => go(-1)}
+                aria-label={t("certificates.prev")}
+                className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
+              >
+                <ChevronLeft size={18} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => go(1)}
+                aria-label={t("certificates.next")}
+                className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
+              >
+                <ChevronRight size={18} aria-hidden="true" />
+              </button>
+            </span>
+          )}
         </div>
       )}
 

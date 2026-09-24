@@ -4,7 +4,6 @@ import ScreenshotCarousel from "./ScreenshotCarousel";
 
 export default function ProjectCard({ project, onOpen }) {
   const { t, lang } = useLang();
-  const stagger = (Number(project.id) - 1) * 1200;
 
   return (
     <article className="group grid grid-cols-1 items-center gap-6 border border-edge bg-panel p-6 transition-colors hover:border-edge-strong md:grid-cols-12">
@@ -13,10 +12,6 @@ export default function ProjectCard({ project, onOpen }) {
           screenshots={project.screenshots}
           accent={project.accent}
           title={project.title}
-          autoPlay
-          interval={3500}
-          startDelay={stagger}
-          showArrows={false}
           showDots
         />
       </div>
