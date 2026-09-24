@@ -23,7 +23,7 @@ export default function ProjectCard({ project, onOpen }) {
 
       <div className="flex flex-col justify-between gap-4 md:col-span-7">
         <div>
-          <p className="font-mono text-xs text-brand-bright">{project.id}</p>
+          <p className="font-mono text-xs text-brand-bright">PROJECT {project.id}</p>
           <h3 className="mt-1 font-heading text-xl font-bold text-ink">
             {project.title}
           </h3>

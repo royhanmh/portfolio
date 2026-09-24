@@ -23,11 +23,11 @@ export const translations = {
       status: "OPEN TO WORK",
     },
     sections: {
-      work: "02 / SELECTED WORK",
-      about: "03 / ABOUT ME",
+      work: "01 / SELECTED WORK",
+      about: "02 / ABOUT ME",
       tech: "03 / TECH STACK",
-      certificates: "03 / CERTIFICATES",
-      contact: "04 / CONTACT",
+      certificates: "04 / CERTIFICATES",
+      contact: "05 / CONTACT",
     },
     certificates: {
       verify: "VERIFY CREDENTIAL",
@@ -136,11 +136,11 @@ export const translations = {
       status: "SIAP BEKERJA",
     },
     sections: {
-      work: "02 / KARYA TERPILIH",
-      about: "03 / TENTANG SAYA",
+      work: "01 / KARYA TERPILIH",
+      about: "02 / TENTANG SAYA",
       tech: "03 / TEKNOLOGI",
-      certificates: "03 / SERTIFIKAT",
-      contact: "04 / KONTAK",
+      certificates: "04 / SERTIFIKAT",
+      contact: "05 / KONTAK",
     },
     certificates: {
       verify: "VERIFIKASI KREDENSIAL",
