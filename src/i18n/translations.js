@@ -106,6 +106,16 @@ export const translations = {
       copied: "Email copied to clipboard.",
       copyEmail: "Copy {email} to clipboard",
       socials: "Social profiles",
+      replyTime: "Replies within 24 hours. Open for freelance.",
+      form: {
+        name: "Name",
+        email: "Email",
+        message: "Project details, timeline, and budget",
+        send: "SEND MESSAGE",
+        sending: "SENDING...",
+        sent: "Message sent. I will reply within 24 hours.",
+        error: "Unable to send. Email me directly instead.",
+      },
     },
     footer: {
       rights: "© {year} Muhammad Zaynurroyhan. All rights reserved.",
@@ -219,6 +229,16 @@ export const translations = {
       copied: "Email tersalin ke papan klip.",
       copyEmail: "Salin {email} ke papan klip",
       socials: "Profil sosial",
+      replyTime: "Balas dalam 24 jam. Terbuka untuk freelance.",
+      form: {
+        name: "Nama",
+        email: "Email",
+        message: "Detail proyek, timeline, dan budget",
+        send: "KIRIM PESAN",
+        sending: "MENGIRIM...",
+        sent: "Pesan terkirim. Saya balas dalam 24 jam.",
+        error: "Gagal mengirim. Email langsung saja.",
+      },
     },
     footer: {
       rights: "© {year} Muhammad Zaynurroyhan. Hak cipta dilindungi.",

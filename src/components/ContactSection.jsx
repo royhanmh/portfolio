@@ -12,6 +12,7 @@ const SOCIAL_ICONS = {
 export default function ContactSection() {
   const { t } = useLang();
   const [copied, setCopied] = useState(false);
+  const [formState, setFormState] = useState("idle");
   const timerRef = useRef(null);
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -32,6 +33,23 @@ export default function ContactSection() {
     timerRef.current = setTimeout(() => setCopied(false), 3000);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setFormState("sending");
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(new FormData(form)).toString(),
+      });
+      setFormState("sent");
+      form.reset();
+    } catch {
+      setFormState("error");
+    }
+  };
+
   return (
     <section id="contact" className="scroll-mt-24 space-y-8">
       <div className="border-b border-edge pb-3">
@@ -46,6 +64,7 @@ export default function ContactSection() {
             {t("contact.headingA")}{" "}
             <span className="text-brand-bright">{t("contact.headingB")}</span>
           </h3>
+          <p className="font-mono text-xs text-ok">{t("contact.replyTime")}</p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2" aria-label={t("contact.socials")}>
             {PROFILE.socials.map((social) => {
               const Icon = SOCIAL_ICONS[social.label];
@@ -97,6 +116,73 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
+
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 gap-4 border border-edge bg-panel p-5 sm:grid-cols-2 sm:p-6"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <p className="hidden" aria-hidden="true">
+          <label>
+            Don’t fill this out: <input name="bot-field" tabIndex={-1} autoComplete="off" />
+          </label>
+        </p>
+        <div className="space-y-1.5">
+          <label htmlFor="contact-name" className="font-mono text-[11px] uppercase tracking-widest text-dim">
+            {t("contact.form.name")}
+          </label>
+          <input
+            id="contact-name"
+            name="name"
+            type="text"
+            required
+            autoComplete="name"
+            className="min-h-[44px] w-full border border-edge-strong bg-canvas px-3 py-2.5 text-sm text-ink placeholder:text-dim/60 focus:border-brand-bright focus:outline-none"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label htmlFor="contact-email" className="font-mono text-[11px] uppercase tracking-widest text-dim">
+            {t("contact.form.email")}
+          </label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            className="min-h-[44px] w-full border border-edge-strong bg-canvas px-3 py-2.5 text-sm text-ink placeholder:text-dim/60 focus:border-brand-bright focus:outline-none"
+          />
+        </div>
+        <div className="space-y-1.5 sm:col-span-2">
+          <label htmlFor="contact-message" className="font-mono text-[11px] uppercase tracking-widest text-dim">
+            {t("contact.form.message")}
+          </label>
+          <textarea
+            id="contact-message"
+            name="message"
+            required
+            rows={4}
+            className="min-h-[44px] w-full border border-edge-strong bg-canvas px-3 py-2.5 text-sm text-ink placeholder:text-dim/60 focus:border-brand-bright focus:outline-none"
+          />
+        </div>
+        <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
+          <button
+            type="submit"
+            disabled={formState === "sending" || formState === "sent"}
+            className="min-h-[44px] bg-brand px-6 font-mono text-xs font-semibold tracking-wider text-white transition-colors hover:bg-brand-bright disabled:opacity-60"
+          >
+            {formState === "sending" ? t("contact.form.sending") : t("contact.form.send")}
+          </button>
+          <div aria-live="polite" className="font-mono text-[11px]">
+            {formState === "sent" && <span className="text-ok">{t("contact.form.sent")}</span>}
+            {formState === "error" && <span className="text-brand-bright">{t("contact.form.error")}</span>}
+          </div>
+        </div>
+      </form>
     </section>
   );
 }
