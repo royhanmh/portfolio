@@ -18,8 +18,15 @@ export default function Header({ activeSection, onNavigate }) {
   }, [menuOpen]);
 
   const handleNavigate = (id) => {
+    if (!menuOpen) {
+      onNavigate(id);
+      return;
+    }
     setMenuOpen(false);
-    onNavigate(id);
+    // The mobile menu lives in normal flow inside the sticky header, so
+    // closing it shifts every section upward. Scroll only after the
+    // collapse commits, otherwise smooth-scroll lands off target.
+    setTimeout(() => onNavigate(id), 100);
   };
 
   return (
