@@ -46,13 +46,13 @@ export default function ProjectCard({ project, onOpen }) {
           ))}
         </ul>
 
-        <div className="flex flex-wrap items-center justify-end gap-5 pt-2">
+        <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-1 pt-2">
           {project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className="group/link flex items-center gap-1.5 font-mono text-xs text-dim transition-colors hover:text-ink"
+              className="group/link flex min-h-[24px] items-center gap-1.5 py-1 font-mono text-xs text-dim transition-colors hover:text-ink"
             >
               {t("projects.live")}
               <ArrowUpRight
@@ -66,7 +66,7 @@ export default function ProjectCard({ project, onOpen }) {
             href={project.githubUrl}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 font-mono text-xs text-dim transition-colors hover:text-ink"
+            className="flex min-h-[24px] items-center gap-1.5 py-1 font-mono text-xs text-dim transition-colors hover:text-ink"
           >
             <Github size={14} aria-hidden="true" />
             {t("projects.github")}
@@ -74,7 +74,8 @@ export default function ProjectCard({ project, onOpen }) {
           <button
             type="button"
             onClick={() => onOpen(project)}
-            className="group/btn flex items-center gap-2 font-mono text-xs text-ink"
+            aria-label={`${t("projects.details")}: ${project.title}`}
+            className="group/btn flex min-h-[24px] items-center gap-2 py-1 font-mono text-xs text-ink"
           >
             {t("projects.details")}
             <ArrowRight

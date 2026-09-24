@@ -279,12 +279,12 @@ export default function CertificateCarousel() {
           </p>
         )}
 
-        <div className="mt-3 flex items-center gap-4">
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
           <a
             href={active.image}
             target="_blank"
             rel="noreferrer"
-            className="font-mono text-[10px] uppercase tracking-widest text-dim transition-colors hover:text-brand-bright dark:text-white/60 dark:hover:text-brand-bright"
+            className="inline-flex min-h-[24px] items-center py-1 font-mono text-[10px] uppercase tracking-widest text-dim transition-colors hover:text-brand-bright dark:text-white/60 dark:hover:text-brand-bright"
           >
             {t("certificates.expand")} ↗
           </a>
@@ -293,7 +293,7 @@ export default function CertificateCarousel() {
               href={active.verifyUrl}
               target="_blank"
               rel="noreferrer"
-              className="font-mono text-[10px] uppercase tracking-widest text-brand-bright hover:underline"
+              className="inline-flex min-h-[24px] items-center py-1 font-mono text-[10px] uppercase tracking-widest text-brand-bright hover:underline"
             >
               {t("certificates.verify")} ↗
             </a>

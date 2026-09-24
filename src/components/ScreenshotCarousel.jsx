@@ -257,7 +257,7 @@ export default function ScreenshotCarousel({
                 key={shot.src}
                 type="button"
                 onClick={() => goTo(i)}
-                aria-label={t("projects.gotoSlide", { n: i + 1 })}
+                aria-label={t("projects.gotoSlide", { n: i + 1, title })}
                 aria-current={i === index ? "true" : undefined}
                 className="flex h-11 w-11 items-center justify-center"
               >
