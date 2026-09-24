@@ -16,9 +16,10 @@ export default function LanguageProvider({ children }) {
 
   const t = useCallback(
     (path, params) => {
-      let value = path
-        .split(".")
-        .reduce((obj, key) => obj?.[key], translations[lang]);
+      const lookup = (locale) =>
+        path.split(".").reduce((obj, key) => obj?.[key], translations[locale]);
+      // Fall back to English so a missing locale key never renders a raw path.
+      let value = lookup(lang) ?? (lang === "en" ? undefined : lookup("en"));
       if (typeof value === "string" && params) {
         for (const [key, param] of Object.entries(params)) {
           value = value.replaceAll(`{${key}}`, param);
