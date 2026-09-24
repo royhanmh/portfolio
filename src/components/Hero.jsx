@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import useCanvasMesh from "../hooks/useCanvasMesh";
 import { useLang } from "../i18n/useLang";
-import profileAvatar from "../assets/profile-avatar(2).png";
+import profileAvatar from "../assets/profile-avatar-512.webp";
 
 export default function Hero({ onNavigate }) {
   const { t } = useLang();
@@ -103,8 +103,9 @@ export default function Hero({ onNavigate }) {
                 <img
                   src={profileAvatar}
                   alt="Portrait of Muhammad Zaynurroyhan"
-                  width="224"
-                  height="224"
+                  width="512"
+                  height="909"
+                  fetchPriority="high"
                   className="absolute inset-0 h-full w-full origin-top scale-[1.0] object-cover object-top"
                   style={{ zIndex: 2 }}
                 />
