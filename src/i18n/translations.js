@@ -76,8 +76,8 @@ export const translations = {
       playAutoplay: "Play screenshot rotation",
     },
     about: {
-      headlineA: "I'M A PROBLEM SOLVER WHO LOVES TO",
-      headlineB: "BUILD.",
+      headlineA: "I'm a problem solver who loves to",
+      headlineB: "build.",
       p1: "I'm a web developer based in Sukabumi, Indonesia. I turn ideas into working products with clean code and thoughtful design, focusing on web applications that solve real problems.",
       p2: "My approach pairs strong technical fundamentals with attention to performance, UI detail, and maintainable delivery on both the frontend and the backend.",
       cta: "GET IN TOUCH",
@@ -100,8 +100,8 @@ export const translations = {
       PostgreSQL: "Database",
     },
     contact: {
-      headingA: "HAVE A PROJECT IN MIND?",
-      headingB: "LET'S TALK.",
+      headingA: "Have a project in mind?",
+      headingB: "Let's talk.",
       sub: "Email me directly, or copy the address:",
       copied: "Email copied to clipboard.",
       copyEmail: "Copy {email} to clipboard",
@@ -189,8 +189,8 @@ export const translations = {
       playAutoplay: "Putar rotasi tangkapan layar",
     },
     about: {
-      headlineA: "SAYA SENANG MEMBERI SOLUSI",
-      headlineB: "MEREALISASIKANNYA.",
+      headlineA: "Saya senang memberi solusi",
+      headlineB: "dan merealisasikannya.",
       p1: "Saya pengembang web dari Sukabumi. Saya mengubah ide menjadi produk yang benar-benar berjalan, dengan kode dan desain yang dipikirkan matang-matang. Saya paling suka membuat aplikasi web yang membantu menyelesaikan masalah nyata.",
       p2: "Saya memiliki dasar teknis yang kuat, tapi tetap memperhatikan performa, detail UI, dan kode yang maintainable, baik di frontend maupun backend.",
       cta: "HUBUNGI SAYA",
@@ -213,8 +213,8 @@ export const translations = {
       PostgreSQL: "Basis data",
     },
     contact: {
-      headingA: "ADA IDE PROYEK?",
-      headingB: "AYO NGOBROL.",
+      headingA: "Ada ide proyek?",
+      headingB: "Ayo ngobrol.",
       sub: "Email langsung, atau salin alamatnya:",
       copied: "Email tersalin ke papan klip.",
       copyEmail: "Salin {email} ke papan klip",

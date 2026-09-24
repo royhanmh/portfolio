@@ -42,7 +42,7 @@ export default function ContactSection() {
 
       <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
         <div className="space-y-4 lg:col-span-6">
-          <h3 className="font-heading text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h3 className="font-heading text-3xl font-bold leading-tight tracking-tight text-ink text-balance sm:text-4xl">
             {t("contact.headingA")}{" "}
             <span className="text-brand-bright">{t("contact.headingB")}</span>
           </h3>

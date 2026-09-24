@@ -23,7 +23,7 @@ export default function About({ onNavigate }) {
       <div className="grid grid-cols-1 items-stretch gap-12 lg:grid-cols-12">
         <div className="flex flex-col justify-between gap-6 lg:col-span-6">
           <div className="space-y-4">
-            <h3 className="font-heading text-2xl font-bold leading-tight text-ink sm:text-3xl">
+            <h3 className="font-heading text-2xl font-bold leading-tight text-ink text-balance sm:text-3xl">
               {t("about.headlineA")}{" "}
               <span className="text-brand-bright">{t("about.headlineB")}</span>
             </h3>
