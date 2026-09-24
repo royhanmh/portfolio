@@ -78,7 +78,7 @@ export default function Header({ activeSection, onNavigate }) {
             >
               EN
             </span>
-            <span className="text-dim" aria-hidden="true">
+            <span className="text-dim">
               |
             </span>
             <span
