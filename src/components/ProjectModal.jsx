@@ -9,6 +9,10 @@ export default function ProjectModal({ project, onClose }) {
   const closeButtonRef = useRef(null);
 
   useEffect(() => {
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
     closeButtonRef.current?.focus();
 
     const onKeyDown = (e) => {
@@ -35,7 +39,10 @@ export default function ProjectModal({ project, onClose }) {
     };
 
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      previouslyFocused?.focus();
+    };
   }, [onClose]);
 
   return (
