@@ -103,9 +103,10 @@ export const translations = {
     contact: {
       headingA: "Have a project in mind?",
       headingB: "Let's talk.",
-      sub: "Email me directly, or copy the address:",
+      sub: "Click the address to copy, or the arrow to send email:",
       copied: "Email copied to clipboard.",
       copyEmail: "Copy {email} to clipboard",
+      sendEmail: "Send email to {email}",
       socials: "Social profiles",
       replyTime: "Replies within 24 hours. Open for freelance.",
     },
@@ -218,9 +219,10 @@ export const translations = {
     contact: {
       headingA: "Ada ide proyek?",
       headingB: "Ayo ngobrol.",
-      sub: "Email langsung, atau salin alamatnya:",
+      sub: "Klik alamat untuk menyalin, atau panah untuk kirim email:",
       copied: "Email tersalin ke papan klip.",
       copyEmail: "Salin {email} ke papan klip",
+      sendEmail: "Kirim email ke {email}",
       socials: "Profil sosial",
       replyTime: "Balas dalam 24 jam. Terbuka untuk freelance.",
     },

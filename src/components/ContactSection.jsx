@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, CheckCircle2, Github, Instagram, Linkedin } from "lucide-react";
+import { ArrowRight, CheckCircle2, Github, Instagram, Linkedin } from "lucide-react";
 import { PROFILE } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
 
@@ -71,22 +71,24 @@ export default function ContactSection() {
           <p className="font-mono text-xs text-dim">{t("contact.sub")}</p>
 
           <div className="flex items-center border border-edge-strong bg-panel p-1.5 transition-colors focus-within:border-brand-bright">
-            <a
-              href={`mailto:${PROFILE.email}`}
-              className="flex-1 px-3 py-2 font-mono text-sm text-ink hover:text-brand-bright"
-            >
-              {PROFILE.email}
-            </a>
-
             <button
               type="button"
               onClick={handleCopyEmail}
               aria-label={t("contact.copyEmail", { email: PROFILE.email })}
               title={t("contact.copyEmail", { email: PROFILE.email })}
+              className="flex min-h-[44px] flex-1 items-center px-3 text-left font-mono text-sm text-ink hover:text-brand-bright"
+            >
+              {PROFILE.email}
+            </button>
+
+            <a
+              href={`mailto:${PROFILE.email}`}
+              aria-label={t("contact.sendEmail", { email: PROFILE.email })}
+              title={t("contact.sendEmail", { email: PROFILE.email })}
               className="flex h-11 w-11 shrink-0 items-center justify-center bg-brand text-white transition-colors hover:bg-brand-bright"
             >
-              {copied ? <Check size={16} aria-hidden="true" /> : <ArrowRight size={16} aria-hidden="true" />}
-            </button>
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
           </div>
 
           <div aria-live="polite">
