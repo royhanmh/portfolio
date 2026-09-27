@@ -54,13 +54,14 @@ export default function Hero({ onNavigate }) {
               <ArrowRight size={16} aria-hidden="true" />
             </span>
           </button>
-          <button
-            type="button"
-            onClick={() => onNavigate("work")}
+          <a
+            href="https://drive.google.com/drive/folders/1m3ULva5XxiekpEmZEkx2rtxeguhYxHFl?usp=drive_link"
+            target="_blank"
+            rel="noreferrer"
             className="flex items-center border border-edge-strong px-6 py-3 font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
           >
-            {t("hero.cta")}
-          </button>
+            {t("hero.resume")}
+          </a>
         </div>
       </div>
 
