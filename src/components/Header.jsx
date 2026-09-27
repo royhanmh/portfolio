@@ -69,7 +69,7 @@ export default function Header({ activeSection, onNavigate }) {
           <button
             type="button"
             onClick={toggleLang}
-            aria-label="EN | ID, switch language to Indonesian"
+            aria-label={t("header.switchLang")}
             className="flex h-11 items-center justify-center gap-1 border border-edge px-3 font-mono text-xs transition-colors hover:border-edge-strong"
           >
             <span
