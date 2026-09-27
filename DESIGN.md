@@ -44,7 +44,7 @@ ENERGY 2 / RHYTHM 2 / MOTION 2
   No scroll-reveal, no floating UI elements, no parallax.
 
 ## Content rules
-- Every number shown is real or absent: 2+ years building, 3 shipped projects,
+- Every number shown is real or absent: 3+ years building, 3 shipped projects,
   bootcamp graduate 2026. No uptime claims, no user counts, no percentages.
 - Project screenshots are labeled placeholders until real captures exist.
 - Certificates come from real scanned documents in `src/assets/certs`; Credly badges
