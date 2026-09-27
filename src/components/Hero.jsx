@@ -45,7 +45,7 @@ export default function Hero({ onNavigate }) {
           <button
             type="button"
             onClick={() => onNavigate("contact")}
-            className="group flex items-center border border-edge-strong bg-panel transition-colors hover:border-brand"
+            className="group flex min-h-[44px] items-center border border-edge-strong bg-panel transition-colors hover:border-brand"
           >
             <span className="px-6 py-3 font-mono text-xs font-semibold tracking-wider text-ink">
               {t("about.cta")}
@@ -58,7 +58,7 @@ export default function Hero({ onNavigate }) {
             href="https://drive.google.com/drive/folders/1m3ULva5XxiekpEmZEkx2rtxeguhYxHFl?usp=drive_link"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center border border-edge-strong px-6 py-3 font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
+            className="flex min-h-[44px] items-center border border-edge-strong px-6 py-3 font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
           >
             {t("hero.resume")}
           </a>
