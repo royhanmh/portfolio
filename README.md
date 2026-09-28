@@ -20,6 +20,19 @@ Full-stack web developer based in Sukabumi, Indonesia. This site replaces my pre
 - Security headers via `netlify.toml`
 - WCAG AA contrast, full keyboard support, visible focus states
 
+## Favicons
+
+Favicon artwork stays in the existing 512px PNG and SVG files. Generate sharp
+PNG sizes and multi-resolution ICO fallbacks from the PNG masters with:
+
+```sh
+python scripts/generate-favicons.py
+```
+
+The generator uses Pillow 11.2.1, already available in the local Python
+environment. It adds no app dependency. Keep light and dark assets paired in
+`index.html` so the theme script can switch them.
+
 ## Projects showcased
 
 | Project | Live | Source |
