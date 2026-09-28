@@ -13,14 +13,22 @@ export default function useCanvasMesh(mode = "full") {
     const ctx = canvas.getContext("2d");
     let animationFrameId = null;
     let dots = [];
+    let cachedColors = null;
+    let visible = true;
 
     const readColors = () => {
+      if (cachedColors) return cachedColors;
       const styles = getComputedStyle(document.documentElement);
-      return {
+      cachedColors = {
         edge: styles.getPropertyValue("--edge").trim() || "#223052",
         brand: styles.getPropertyValue("--brand").trim() || "#3b82f6",
         alpha: document.documentElement.classList.contains("dark") ? 0.7 : 0.55,
       };
+      return cachedColors;
+    };
+
+    const invalidateColors = () => {
+      cachedColors = null;
     };
 
     const drawGrid = () => {
@@ -85,6 +93,7 @@ export default function useCanvasMesh(mode = "full") {
     const sizeCanvas = () => {
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
+      invalidateColors();
     };
 
     let resizeHandler;
@@ -112,7 +121,7 @@ export default function useCanvasMesh(mode = "full") {
       };
       resizeHandler();
       const render = () => {
-        drawFrame();
+        if (visible) drawFrame();
         animationFrameId = requestAnimationFrame(render);
       };
       render();
@@ -122,16 +131,31 @@ export default function useCanvasMesh(mode = "full") {
     observer.observe(canvas.parentElement);
 
     // Theme flips change --edge/--brand colors; a redraw picks them up.
-    const themeWatcher = new MutationObserver(resizeHandler);
+    const themeWatcher = new MutationObserver(() => {
+      invalidateColors();
+      resizeHandler();
+    });
     themeWatcher.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     });
 
+    const visibilityWatcher =
+      typeof IntersectionObserver !== "undefined"
+        ? new IntersectionObserver(
+            ([entry]) => {
+              visible = entry.isIntersecting;
+            },
+            { threshold: 0 },
+          )
+        : null;
+    visibilityWatcher?.observe(canvas);
+
     return () => {
       cancelAnimationFrame(animationFrameId);
       observer.disconnect();
       themeWatcher.disconnect();
+      visibilityWatcher?.disconnect();
     };
   }, [mode]);
 

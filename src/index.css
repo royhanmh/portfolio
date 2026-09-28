@@ -64,6 +64,7 @@
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
+    overflow-x: clip;
     background: var(--canvas);
     color: var(--ink);
     font-family: var(--font-sans);
@@ -183,5 +184,12 @@
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  header[class*="backdrop-blur"] {
+    backdrop-filter: none;
+    background-color: var(--canvas);
   }
 }
