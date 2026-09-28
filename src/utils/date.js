@@ -1,9 +1,9 @@
 const LOCALES = { en: "en-US", id: "id-ID" };
 
 export function formatIssueDate(iso, lang) {
-  if (!iso) return "[ DATE ]";
+  if (!iso) return "";
   const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "[ DATE ]";
+  if (Number.isNaN(date.getTime())) return "";
   return new Intl.DateTimeFormat(LOCALES[lang] ?? LOCALES.en, {
     month: "short",
     year: "numeric",

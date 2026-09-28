@@ -54,10 +54,25 @@ export const PROJECTS = [
     screenshots: [
       {
         src: padiposDashboard,
-        alt: "PadiPOS admin dashboard with sales summary",
+        alt: {
+          en: "PadiPOS admin dashboard with sales summary",
+          id: "Dasbor admin PadiPOS dengan ringkasan penjualan",
+        },
       },
-      { src: padiposCatalog, alt: "PadiPOS product catalog management" },
-      { src: padiposReport, alt: "PadiPOS sales report with filters" },
+      {
+        src: padiposCatalog,
+        alt: {
+          en: "PadiPOS product catalog management",
+          id: "Manajemen katalog produk PadiPOS",
+        },
+      },
+      {
+        src: padiposReport,
+        alt: {
+          en: "PadiPOS sales report with filters",
+          id: "Laporan penjualan PadiPOS dengan filter",
+        },
+      },
     ],
   },
   {
@@ -74,9 +89,27 @@ export const PROJECTS = [
     githubUrl: "https://github.com/royhanmh/tempo",
     accent: "timer",
     screenshots: [
-      { src: tempoTimers, alt: "Tempo active timer for deep work" },
-      { src: tempoTemplates, alt: "Tempo preset timer templates" },
-      { src: tempoFocus, alt: "Tempo distraction-free focus mode" },
+      {
+        src: tempoTimers,
+        alt: {
+          en: "Tempo active timer for deep work",
+          id: "Timer aktif Tempo untuk deep work",
+        },
+      },
+      {
+        src: tempoTemplates,
+        alt: {
+          en: "Tempo preset timer templates",
+          id: "Templat timer preset Tempo",
+        },
+      },
+      {
+        src: tempoFocus,
+        alt: {
+          en: "Tempo distraction-free focus mode",
+          id: "Mode fokus Tempo tanpa gangguan",
+        },
+      },
     ],
   },
   {
@@ -93,9 +126,27 @@ export const PROJECTS = [
     githubUrl: "https://github.com/royhanmh/warmindo",
     accent: "warmindo",
     screenshots: [
-      { src: warmindoPos, alt: "Warmindo POS ordering screen with menu grid" },
-      { src: warmindoStock, alt: "Warmindo inventory management table" },
-      { src: warmindoReport, alt: "Warmindo sales report page" },
+      {
+        src: warmindoPos,
+        alt: {
+          en: "Warmindo POS ordering screen with menu grid",
+          id: "Layar pemesanan Warmindo POS dengan grid menu",
+        },
+      },
+      {
+        src: warmindoStock,
+        alt: {
+          en: "Warmindo inventory management table",
+          id: "Tabel manajemen inventaris Warmindo",
+        },
+      },
+      {
+        src: warmindoReport,
+        alt: {
+          en: "Warmindo sales report page",
+          id: "Halaman laporan penjualan Warmindo",
+        },
+      },
     ],
   },
 ];
@@ -181,6 +232,7 @@ export const TECH_STACK = [
   "Tailwind CSS",
   "Node.js",
   "Express.js",
+  "PostgreSQL",
   "MySQL",
   "Git",
   "REST APIs",

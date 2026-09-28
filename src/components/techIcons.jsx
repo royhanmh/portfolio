@@ -69,6 +69,17 @@ function mySQLIcon() {
   );
 }
 
+function postgreSQLIcon() {
+  return (
+    <div
+      aria-hidden="true"
+      className="flex h-8 w-8 items-center justify-center bg-[#336791] text-[9px] font-bold text-white"
+    >
+      PG
+    </div>
+  );
+}
+
 function gitIcon() {
   return (
     <svg className="h-8 w-8 text-[#F05032]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -95,6 +106,7 @@ export const TECH_ICONS = {
   "Node.js": nodeIcon,
   "Express.js": expressIcon,
   MySQL: mySQLIcon,
+  PostgreSQL: postgreSQLIcon,
   Git: gitIcon,
   "REST APIs": restApiIcon,
 };

@@ -20,7 +20,9 @@ export const translations = {
       role: "WEB DEVELOPER",
       intro:
         "I build clean React interfaces and practical Node.js backends, with a focus on usable flows, clear UI, and maintainable structure.",
+      contact: "GET IN TOUCH",
       resume: "VIEW RESUME",
+      resumeNewTab: "View resume (opens in new tab)",
       scroll: "SCROLL",
       status: "OPEN TO WORK",
     },
@@ -137,7 +139,9 @@ export const translations = {
       role: "PENGEMBANG WEB",
       intro:
         "Saya membangun antarmuka React dan backend Node.js yang praktis, dengan fokus pada alur yang mudah digunakan dan struktur yang maintainable.",
+      contact: "HUBUNGI SAYA",
       resume: "LIHAT CV",
+      resumeNewTab: "Lihat CV (membuka tab baru)",
       scroll: "GULIR",
       status: "SIAP BEKERJA",
     },
