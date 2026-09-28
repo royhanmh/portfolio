@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="application-name" content="Muhammad Zaynurroyhan Portfolio" />
-    <meta name="theme-color" content="#0a0e17" />
+    <meta name="theme-color" content="#f7f9fc" />
     <meta
       name="description"
       content="Muhammad Zaynurroyhan is a full-stack web developer from Sukabumi, Indonesia, building practical web products with React, Node.js, and Express."
@@ -58,12 +58,12 @@
         var t = localStorage.getItem("portfolio-theme");
         var dark =
           t === "dark" ||
-          (!t && !window.matchMedia("(prefers-color-scheme: light)").matches);
+          (!t && window.matchMedia("(prefers-color-scheme: dark)").matches);
         if (dark) document.documentElement.classList.add("dark");
         var mc = document.querySelector('meta[name="theme-color"]');
         if (mc) mc.content = dark ? "#0a0e17" : "#f7f9fc";
       } catch (e) {
-        document.documentElement.classList.add("dark");
+        return;
       }
     </script>
     <script type="application/ld+json">

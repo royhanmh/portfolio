@@ -9,14 +9,14 @@ function getInitialTheme() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
   } catch {
-    return "dark";
+    return "light";
   }
   if (
     typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: light)").matches
+    window.matchMedia?.("(prefers-color-scheme: dark)").matches
   )
-    return "light";
-  return "dark";
+    return "dark";
+  return "light";
 }
 
 export default function ThemeToggle() {
