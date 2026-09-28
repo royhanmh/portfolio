@@ -32,8 +32,13 @@ export default function ThemeToggle() {
     }
 
     const isDark = theme === "dark";
-    document.querySelectorAll('link[data-href-dark]').forEach((link) => {
-      link.href = isDark ? link.dataset.hrefDark : link.dataset.hrefLight;
+    document.querySelectorAll("link[data-href-dark]").forEach((link) => {
+      const href = isDark ? link.dataset.hrefDark : link.dataset.hrefLight;
+      if (link.getAttribute("href") === href) return;
+      const next = document.createElement("link");
+      for (const attr of link.attributes) next.setAttribute(attr.name, attr.value);
+      next.setAttribute("href", href);
+      link.replaceWith(next);
     });
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
