@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProjectCard from "./components/ProjectCard";
@@ -15,12 +15,21 @@ const SECTION_IDS = ["home", "work", "about", "stack", "certificates", "contact"
 
 export default function App() {
   const { t } = useLang();
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState(() => {
+    const hash =
+      typeof window !== "undefined" ? window.location.hash?.slice(1) : "";
+    return SECTION_IDS.includes(hash) ? hash : "home";
+  });
   const [selectedProject, setSelectedProject] = useState(null);
   const bodyOverflowRef = useRef("");
   const overlayOpen = Boolean(selectedProject);
 
   useEffect(() => {
+    const hash = window.location.hash?.slice(1);
+    if (hash && SECTION_IDS.includes(hash)) {
+      document.getElementById(hash)?.scrollIntoView();
+      return;
+    }
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
@@ -35,7 +44,7 @@ export default function App() {
         ([entry]) => {
           if (entry.isIntersecting) setActiveSection(id);
         },
-        { rootMargin: "-40% 0px -55% 0px" },
+        { rootMargin: "-45% 0px -45% 0px" },
       );
       observer.observe(element);
       return observer;
@@ -48,23 +57,50 @@ export default function App() {
       bodyOverflowRef.current = document.body.style.overflow;
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = bodyOverflowRef.current;
+      document.body.style.overflow = bodyOverflowRef.current ?? "";
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = bodyOverflowRef.current ?? "";
     };
   }, [overlayOpen]);
 
-  const scrollToSection = (id) => {
+  const scrollToSection = useCallback((id) => {
     setActiveSection(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+    const el = document.getElementById(id);
+    if (!el) return;
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    try {
+      history.replaceState(null, "", `#${id}`);
+    } catch {
+      return;
+    }
+  }, []);
+
+  const handleCloseProject = useCallback(() => setSelectedProject(null), []);
 
   return (
     <div className="min-h-screen overflow-x-clip bg-canvas text-ink antialiased">
+      <a
+        href="#main"
+        onClick={(e) => {
+          e.preventDefault();
+          scrollToSection("home");
+          document.getElementById("main")?.focus({ preventScroll: true });
+        }}
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:border focus:border-brand-bright focus:bg-panel focus:px-4 focus:py-2 focus:font-mono focus:text-xs"
+      >
+        Skip to main content
+      </a>
       <Header activeSection={activeSection} onNavigate={scrollToSection} />
 
-      <main className="relative z-10 mx-auto max-w-6xl space-y-12 px-6 pb-12 pt-12 sm:space-y-16 sm:pb-16">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="relative z-10 mx-auto max-w-6xl space-y-12 px-6 pb-12 pt-12 sm:space-y-16 sm:pb-16"
+      >
         <Hero onNavigate={scrollToSection} />
 
         <section id="work" className="scroll-mt-24 space-y-6">
@@ -99,7 +135,7 @@ export default function App() {
       {selectedProject && (
         <ProjectModal
           project={selectedProject}
-          onClose={() => setSelectedProject(null)}
+          onClose={handleCloseProject}
         />
       )}
     </div>

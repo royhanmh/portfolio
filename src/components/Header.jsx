@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV_ITEMS } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
@@ -7,11 +7,18 @@ import ThemeToggle from "./ThemeToggle";
 export default function Header({ activeSection, onNavigate }) {
   const { t, toggleLang, lang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+  const timerRef = useRef(null);
+
+  useEffect(() => () => clearTimeout(timerRef.current), []);
 
   useEffect(() => {
     if (!menuOpen) return;
     const onKeyDown = (e) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -26,7 +33,11 @@ export default function Header({ activeSection, onNavigate }) {
     // The mobile menu lives in normal flow inside the sticky header, so
     // closing it shifts every section upward. Scroll only after the
     // collapse commits, otherwise smooth-scroll lands off target.
-    setTimeout(() => onNavigate(id), 100);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onNavigate(id);
+      menuButtonRef.current?.focus();
+    }, 100);
   };
 
   return (
@@ -53,7 +64,7 @@ export default function Header({ activeSection, onNavigate }) {
               key={nav.id}
               type="button"
               onClick={() => handleNavigate(nav.id)}
-              aria-current={activeSection === nav.id ? "true" : undefined}
+              aria-current={activeSection === nav.id ? "page" : undefined}
               className={`border-b-2 py-1 transition-colors ${
                 activeSection === nav.id
                   ? "border-brand-bright font-semibold text-ink"
@@ -73,31 +84,32 @@ export default function Header({ activeSection, onNavigate }) {
             className="flex h-11 items-center justify-center gap-1 border border-edge px-3 font-mono text-xs transition-colors hover:border-edge-strong"
           >
             <span
+              aria-hidden="true"
               className={
                 lang === "en"
                   ? "font-bold text-ink underline decoration-brand-bright decoration-2 underline-offset-4"
                   : "text-dim"
               }
-              aria-current={lang === "en" ? "true" : undefined}
             >
               EN
             </span>
-            <span className="text-dim">
+            <span className="text-dim" aria-hidden="true">
               |
             </span>
             <span
+              aria-hidden="true"
               className={
                 lang === "id"
                   ? "font-bold text-ink underline decoration-brand-bright decoration-2 underline-offset-4"
                   : "text-dim"
               }
-              aria-current={lang === "id" ? "true" : undefined}
             >
               ID
             </span>
           </button>
           <ThemeToggle />
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-expanded={menuOpen}
@@ -105,7 +117,11 @@ export default function Header({ activeSection, onNavigate }) {
             aria-label={menuOpen ? t("header.closeMenu") : t("header.openMenu")}
             className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:text-ink md:hidden"
           >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            {menuOpen ? (
+              <X size={22} aria-hidden="true" />
+            ) : (
+              <Menu size={22} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
@@ -119,7 +135,7 @@ export default function Header({ activeSection, onNavigate }) {
             key={nav.id}
             type="button"
             onClick={() => handleNavigate(nav.id)}
-            aria-current={activeSection === nav.id ? "true" : undefined}
+            aria-current={activeSection === nav.id ? "page" : undefined}
             className={`block min-h-[44px] w-full border-l-2 py-3 pl-3 text-left transition-colors ${
               activeSection === nav.id
                 ? "border-brand-bright bg-brand-soft text-ink"
