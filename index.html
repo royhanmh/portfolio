@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-light-512.png" />
-    <link rel="alternate icon" type="image/svg+xml" href="/favicon-light.svg" />
-    <link rel="alternate icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-light.svg" data-href-dark="/favicon.svg" data-href-light="/favicon-light.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32-light.png" data-href-dark="/favicon-32.png" data-href-light="/favicon-32-light.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48-light.png" data-href-dark="/favicon-48.png" data-href-light="/favicon-48-light.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="application-name" content="Muhammad Zaynurroyhan Portfolio" />
@@ -62,6 +63,12 @@
         if (dark) document.documentElement.classList.add("dark");
         var mc = document.querySelector('meta[name="theme-color"]');
         if (mc) mc.content = dark ? "#0a0e17" : "#f7f9fc";
+        var links = document.querySelectorAll('link[data-href-dark]');
+        for (var i = 0; i < links.length; i++) {
+          links[i].href = dark
+            ? links[i].getAttribute("data-href-dark")
+            : links[i].getAttribute("data-href-light");
+        }
       } catch (e) {
         /* storage unavailable: stay on light default */
       }

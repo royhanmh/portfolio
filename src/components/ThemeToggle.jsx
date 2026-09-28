@@ -32,14 +32,9 @@ export default function ThemeToggle() {
     }
 
     const isDark = theme === "dark";
-    document
-      .querySelectorAll('link[rel="icon"], link[rel="alternate icon"]')
-      .forEach((link) => {
-        const href = link.getAttribute("href") || "";
-        if (href.includes("favicon")) {
-          link.href = isDark ? "/favicon-512.png" : "/favicon-light-512.png";
-        }
-      });
+    document.querySelectorAll('link[data-href-dark]').forEach((link) => {
+      link.href = isDark ? link.dataset.hrefDark : link.dataset.hrefLight;
+    });
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {

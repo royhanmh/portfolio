@@ -29,8 +29,5 @@
     "vite": "^6.0.0"
   },
   "description": "",
-  "main": "eslint.config.js",
-  "keywords": [],
-  "author": "",
   "license": "ISC"
 }
