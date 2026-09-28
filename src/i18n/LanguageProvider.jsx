@@ -4,13 +4,29 @@ import { LanguageContext } from "./useLang";
 
 const STORAGE_KEY = "portfolio-lang";
 
+function safeGet() {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function safeSet(value) {
+  try {
+    localStorage.setItem(STORAGE_KEY, value);
+  } catch {
+    return;
+  }
+}
+
 export default function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() =>
-    localStorage.getItem(STORAGE_KEY) === "id" ? "id" : "en",
+    safeGet() === "id" ? "id" : "en",
   );
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, lang);
+    safeSet(lang);
     document.documentElement.lang = lang;
   }, [lang]);
 

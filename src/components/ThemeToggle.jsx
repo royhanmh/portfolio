@@ -5,9 +5,18 @@ import { useLang } from "../i18n/useLang";
 const STORAGE_KEY = "portfolio-theme";
 
 function getInitialTheme() {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === "light" || stored === "dark") return stored;
-  return "light";
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === "light" || stored === "dark") return stored;
+  } catch {
+    return "dark";
+  }
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-color-scheme: light)").matches
+  )
+    return "light";
+  return "dark";
 }
 
 export default function ThemeToggle() {
@@ -16,13 +25,21 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem(STORAGE_KEY, theme);
-
-    const favicon = document.querySelector('link[rel="icon"]');
-    if (favicon) {
-      favicon.href =
-        theme === "dark" ? "/favicon-512.png" : "/favicon-light-512.png";
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      return;
     }
+
+    const isDark = theme === "dark";
+    document
+      .querySelectorAll('link[rel="icon"], link[rel="alternate icon"]')
+      .forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        if (href.includes("favicon")) {
+          link.href = isDark ? "/favicon-512.png" : "/favicon-light-512.png";
+        }
+      });
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
@@ -40,7 +57,11 @@ export default function ThemeToggle() {
       aria-pressed={theme === "dark"}
       className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-edge-strong hover:text-ink"
     >
-      {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+      {theme === "light" ? (
+        <Moon size={18} aria-hidden="true" />
+      ) : (
+        <Sun size={18} aria-hidden="true" />
+      )}
     </button>
   );
 }
