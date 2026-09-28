@@ -18,7 +18,7 @@ export default function ScreenshotCarousel({
   showArrows = true,
   showDots = true,
 }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [index, setIndex] = useState(0);
   const [hoverPaused, setHoverPaused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
@@ -162,8 +162,22 @@ export default function ScreenshotCarousel({
       onKeyDown={onKeyDown}
       onMouseEnter={autoPlay ? handleMouseEnter : undefined}
       onMouseLeave={autoPlay ? handleMouseLeave : undefined}
-      onFocus={autoPlay ? () => setHoverPaused(true) : undefined}
-      onBlur={autoPlay ? () => setHoverPaused(false) : undefined}
+      onFocusCapture={
+        autoPlay
+          ? (e) => {
+              if (!e.currentTarget.contains(e.relatedTarget))
+                setHoverPaused(true);
+            }
+          : undefined
+      }
+      onBlurCapture={
+        autoPlay
+          ? (e) => {
+              if (!e.currentTarget.contains(e.relatedTarget))
+                setHoverPaused(false);
+            }
+          : undefined
+      }
     >
       <div
         role="region"
@@ -196,7 +210,11 @@ export default function ScreenshotCarousel({
             >
               <img
                 src={shot.src}
-                alt={shot.alt}
+                alt={
+                  typeof shot.alt === "string"
+                    ? shot.alt
+                    : (shot.alt?.[lang] ?? shot.alt?.en ?? "")
+                }
                 className="pointer-events-none h-full w-full object-cover object-top"
                 loading={i === 0 ? "eager" : "lazy"}
                 draggable={false}
@@ -244,14 +262,14 @@ export default function ScreenshotCarousel({
       </div>
 
       {total > 1 && showDots && (
-        <div className="mt-1 flex items-center justify-between gap-2">
+        <div className="mt-1 flex flex-wrap items-center justify-between gap-2">
           <p
             aria-hidden="true"
             className="font-mono text-[10px] tracking-widest text-dim"
           >
             {t("projects.slideCount", { n: pad(index + 1), total: pad(total) })}
           </p>
-          <div className="flex items-center gap-1">
+          <div className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-1">
             {screenshots.map((shot, i) => (
               <button
                 key={shot.src}

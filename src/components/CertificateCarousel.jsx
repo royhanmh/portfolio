@@ -77,7 +77,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
       setPos((current) => current + 1);
     }, AUTOPLAY_INTERVAL);
     return () => clearInterval(id);
-  }, [total, autoplayPaused]);
+  }, [total, autoplayPaused, autoPlay]);
 
   // A navigation that lands mid-jump flushes the pending snap first, so no
   // input is ever swallowed inside the normalization window.
@@ -185,8 +185,12 @@ export default function CertificateCarousel({ autoPlay = false }) {
       onKeyDown={onKeyDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onFocus={() => setHoverPaused(true)}
-      onBlur={() => setHoverPaused(false)}
+      onFocusCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setHoverPaused(true);
+      }}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setHoverPaused(false);
+      }}
     >
       <div
         role="region"
@@ -239,7 +243,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
                   <CertificateFrame
                     certificate={certificate}
                     className="aspect-[3/2] w-full"
-                    loading="eager"
+                    loading={isClone ? "lazy" : focused ? "eager" : "lazy"}
                   />
                 </div>
               </div>
@@ -269,7 +273,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
           {active.title}
         </h3>
         {(active.issuer || active.issued) && (
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-dim dark:text-white/60">
+          <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-dim dark:text-white/75">
             {[
               active.issuer,
               active.issued && formatIssueDate(active.issued, lang),
@@ -283,8 +287,9 @@ export default function CertificateCarousel({ autoPlay = false }) {
           <a
             href={active.image}
             target="_blank"
-            rel="noreferrer"
-            className="inline-flex min-h-[24px] items-center py-1 font-mono text-[10px] uppercase tracking-widest text-dim transition-colors hover:text-brand-bright dark:text-white/60 dark:hover:text-brand-bright"
+            rel="noopener noreferrer"
+            aria-label={`${t("certificates.expand")}: ${active.title} (opens in new tab)`}
+            className="inline-flex min-h-11 items-center py-1 font-mono text-[10px] uppercase tracking-widest text-dim transition-colors hover:text-brand-bright dark:text-white/75 dark:hover:text-brand-bright"
           >
             {t("certificates.expand")} ↗
           </a>
@@ -292,8 +297,9 @@ export default function CertificateCarousel({ autoPlay = false }) {
             <a
               href={active.verifyUrl}
               target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-h-[24px] items-center py-1 font-mono text-[10px] uppercase tracking-widest text-brand-bright hover:underline"
+              rel="noopener noreferrer"
+              aria-label={`${t("certificates.verify")}: ${active.title} (opens in new tab)`}
+              className="inline-flex min-h-11 items-center py-1 font-mono text-[10px] uppercase tracking-widest text-brand-bright hover:underline"
             >
               {t("certificates.verify")} ↗
             </a>
@@ -302,7 +308,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
       </div>
 
       {total > 1 && (
-        <div className="mt-1 flex w-full items-center justify-between gap-2 px-2">
+        <div className="mt-1 flex w-full flex-wrap items-center justify-between gap-2 px-2">
           <p
             aria-hidden="true"
             className="font-mono text-[10px] tracking-widest text-dim"
@@ -312,7 +318,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
               total: pad(total),
             })}
           </p>
-          <div className="flex items-center gap-1">
+          <div className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-1">
             {CERTIFICATES.map((certificate, i) => (
               <button
                 key={certificate.id}

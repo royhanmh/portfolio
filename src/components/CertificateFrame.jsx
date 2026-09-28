@@ -12,7 +12,7 @@ const CORNERS = [
 export default function CertificateFrame({
   certificate,
   className = "",
-  fit = "cover",
+  fit = "contain",
   loading = "lazy",
 }) {
   const { t } = useLang();
