@@ -63,7 +63,7 @@
         var mc = document.querySelector('meta[name="theme-color"]');
         if (mc) mc.content = dark ? "#0a0e17" : "#f7f9fc";
       } catch (e) {
-        return;
+        /* storage unavailable: stay on light default */
       }
     </script>
     <script type="application/ld+json">
