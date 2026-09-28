@@ -121,7 +121,8 @@ export default function ProjectModal({ project, onClose }) {
             <a
               href={project.liveUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              aria-label={`${t("projects.live")}: ${project.title} (opens in new tab)`}
               className="flex min-h-[44px] items-center gap-1.5 bg-brand px-5 py-2.5 font-mono text-xs font-semibold text-white transition-colors hover:bg-brand-bright"
             >
               {t("projects.live")} <ArrowUpRight size={14} aria-hidden="true" />
@@ -130,7 +131,8 @@ export default function ProjectModal({ project, onClose }) {
           <a
             href={project.githubUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label={`${t("projects.github")}: ${project.title} (opens in new tab)`}
             className="flex min-h-[44px] items-center gap-1.5 border border-edge-strong px-5 py-2.5 font-mono text-xs text-ink transition-colors hover:border-brand"
           >
             <Github size={14} aria-hidden="true" /> {t("projects.github")}

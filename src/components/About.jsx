@@ -35,16 +35,16 @@ export default function About({ onNavigate }) {
             <button
               type="button"
               onClick={() => onNavigate("contact")}
-              className="group inline-flex items-center border border-edge-strong bg-panel transition-colors hover:border-brand"
+              className="group inline-flex min-h-11 items-center justify-center border border-edge-strong bg-panel text-center transition-colors hover:border-brand"
             >
               <span className="px-5 py-3 font-mono text-xs font-semibold tracking-wider text-ink">
                 {t("about.cta")}
               </span>
               <span
                 aria-hidden="true"
-                className="flex items-center justify-center bg-brand p-3 text-white transition-colors group-hover:bg-brand-bright"
+                className="flex items-center justify-center self-stretch bg-brand px-3 text-white transition-colors group-hover:bg-brand-bright"
               >
-                <Terminal size={16} />
+                <Terminal size={16} aria-hidden="true" />
               </span>
             </button>
           </div>

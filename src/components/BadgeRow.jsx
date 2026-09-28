@@ -16,7 +16,8 @@ export default function BadgeRow() {
         <a
           href={CREDLY_PROFILE}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
+          aria-label={`${t("certificates.credlyProfile")} (opens in new tab)`}
           className="group/link flex min-h-[44px] items-center gap-1.5 font-mono text-xs text-dim transition-colors hover:text-ink"
         >
           {t("certificates.credlyProfile")}
@@ -34,7 +35,8 @@ export default function BadgeRow() {
             <a
               href={badge.url}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              aria-label={`${badge.title} (opens in new tab)`}
               className="flex h-full flex-col gap-4 p-5 transition-colors hover:bg-panel-soft"
             >
               <img

@@ -26,7 +26,7 @@ export default function PreviewPlaceholder({ accent }) {
       <p className="font-mono text-[10px] tracking-wider text-dim">
         {config.label}
       </p>
-      <p className="font-mono text-[9px] uppercase tracking-widest text-dim/70">
+      <p className="font-mono text-[9px] uppercase tracking-widest text-dim">
         {t("projects.placeholder")}
       </p>
     </div>

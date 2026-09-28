@@ -55,7 +55,8 @@ export default function ContactSection() {
                   <a
                     href={social.url}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
+                    aria-label={`${social.label} (opens in new tab)`}
                     className="flex min-h-[44px] items-center gap-2 font-mono text-xs text-dim transition-colors hover:text-ink"
                   >
                     <Icon size={14} aria-hidden="true" />
@@ -70,15 +71,15 @@ export default function ContactSection() {
         <div className="space-y-3 lg:col-span-6">
           <p className="font-mono text-xs text-dim">{t("contact.sub")}</p>
 
-          <div className="flex items-center border border-edge-strong bg-panel p-1.5 transition-colors focus-within:border-brand-bright">
+          <div className="flex items-center overflow-hidden border border-edge-strong bg-panel p-1.5 transition-colors focus-within:border-brand-bright">
             <button
               type="button"
               onClick={handleCopyEmail}
               aria-label={t("contact.copyEmail", { email: PROFILE.email })}
               title={t("contact.copyEmail", { email: PROFILE.email })}
-              className="flex min-h-[44px] flex-1 items-center px-3 text-left font-mono text-sm text-ink hover:text-brand-bright"
+              className="flex min-h-[44px] min-w-0 flex-1 items-center overflow-hidden px-3 text-left font-mono text-sm text-ink hover:text-brand-bright"
             >
-              {PROFILE.email}
+              <span className="min-w-0 flex-1 truncate">{PROFILE.email}</span>
             </button>
 
             <a

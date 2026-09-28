@@ -25,10 +25,7 @@ export default function Hero({ onNavigate }) {
           {t("hero.greeting")}
         </p>
 
-        <h1
-          className="font-heading text-4xl font-extrabold leading-none tracking-tight text-ink sm:text-5xl lg:text-6xl"
-          aria-label="Zaynurroyhan, known as Roy"
-        >
+        <h1 className="break-words font-heading text-4xl font-extrabold leading-none tracking-tight text-ink [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
           ZAYNUR<span className="text-brand-bright">ROY</span>HAN
           <span className="text-brand">.</span>
         </h1>
@@ -45,22 +42,24 @@ export default function Hero({ onNavigate }) {
           <button
             type="button"
             onClick={() => onNavigate("contact")}
-            className="group flex min-h-[44px] items-center border border-edge-strong bg-panel transition-colors hover:border-brand"
+            className="group flex min-h-11 items-center justify-center border border-edge-strong bg-panel text-center transition-colors hover:border-brand"
           >
-            <span className="px-6 py-3 font-mono text-xs font-semibold tracking-wider text-ink">
-              {t("about.cta")}
+            <span className="flex items-center self-center px-6 py-3 font-mono text-xs font-semibold tracking-wider text-ink">
+              {t("hero.contact")}
             </span>
-            <span className="flex items-center justify-center bg-brand p-3 text-white transition-colors group-hover:bg-brand-bright">
+            <span className="flex items-center justify-center self-stretch bg-brand px-3 text-white transition-colors group-hover:bg-brand-bright">
               <ArrowRight size={16} aria-hidden="true" />
             </span>
           </button>
           <a
             href="https://drive.google.com/drive/folders/1m3ULva5XxiekpEmZEkx2rtxeguhYxHFl?usp=drive_link"
             target="_blank"
-            rel="noreferrer"
-            className="flex min-h-[44px] items-center border border-edge-strong px-6 py-3 font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
+            rel="noopener noreferrer"
+            aria-label={t("hero.resumeNewTab")}
+            className="flex min-h-11 items-center justify-center border border-edge-strong px-6 py-3 text-center font-mono text-xs font-semibold tracking-wider text-dim transition-colors hover:border-brand hover:text-ink"
           >
             {t("hero.resume")}
+            <span aria-hidden="true" className="ml-1.5 text-[10px]">↗</span>
           </a>
         </div>
       </div>
@@ -112,7 +111,7 @@ export default function Hero({ onNavigate }) {
                   src={profileAvatar}
                   alt="Portrait of Muhammad Zaynurroyhan"
                   width="512"
-                  height="909"
+                  height="512"
                   fetchPriority="high"
                   className="absolute inset-0 h-full w-full origin-top scale-[1.0] object-cover object-top"
                   style={{ zIndex: 2 }}
