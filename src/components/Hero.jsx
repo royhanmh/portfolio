@@ -53,6 +53,7 @@ export default function Hero({ onNavigate }) {
           </button>
           <a
             href="https://drive.google.com/drive/folders/1m3ULva5XxiekpEmZEkx2rtxeguhYxHFl?usp=drive_link"
+            data-press
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t("hero.resumeNewTab")}

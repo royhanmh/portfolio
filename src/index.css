@@ -14,6 +14,8 @@
   --brand-bright: #1d4ed8;
   --brand-soft: #dbe6fb;
   --ok: #047857;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .dark {
@@ -107,42 +109,7 @@
   }
 }
 
-/* Functional motion: live-status indicator must signal liveness
-   (DESIGN.md MOTION 1 exception). */
-@keyframes statusPulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-
-@keyframes carousel-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 @layer utilities {
-  .animate-status-pulse {
-    animation: statusPulse 1.8s ease-in-out infinite;
-  }
-
-  /* Carousel autoplay progress: thin HUD bar under the media.
-     Duration is set inline from the autoplay interval. The global
-     prefers-reduced-motion block below neutralizes it. */
-  .animate-carousel-progress {
-    animation-name: carousel-progress;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-    transform-origin: left center;
-  }
-
   /* Horizontal certificate strip: scroll chrome hidden because the strip
      communicates overflow by peeking the next card, not by a scrollbar. */
   .no-scrollbar {
@@ -174,6 +141,22 @@
   .dark .logo-bg-warmindo {
     background: linear-gradient(135deg, #3a1618, #1e0d0e);
   }
+}
+
+/* Press feedback: controls read as physical keys in the HUD. The standalone
+   `scale` property composes with existing transforms on arrows and icons. */
+button,
+a[data-press] {
+  transition-property: color, background-color, border-color, outline-color,
+    text-decoration-color, fill, stroke, scale;
+  transition-duration: 150ms, 150ms, 150ms, 150ms, 150ms, 150ms, 150ms, 120ms;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease,
+    var(--ease-out);
+}
+
+button:not(:disabled):active,
+a[data-press]:active {
+  scale: 0.98;
 }
 
 @media (prefers-reduced-motion: reduce) {

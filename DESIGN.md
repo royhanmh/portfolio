@@ -15,8 +15,9 @@ hero and project previews so the page reads as one system.
 - Type: Poppins headings (geometric, confident), Inter body (readability). Monospace
   appears only on HUD micro-labels and markers as motif accent, never on headings
   or body (R-06).
-- Canvas mesh grid in hero: the one texture of the motif. Drawn statically, no loop,
-  because MOTION dial is 1 (R-07 pass with written purpose).
+- Canvas mesh grid in hero: the one texture of the motif. The grid layer stays
+  static; only the particle layer drifts. That single ambient loop stops offscreen
+  and under reduced motion, so the MOTION dial is 2, not 3.
 - Glow: logo mark only. Everything else matte (R-13 dose cap).
 - Radius: sharp corners (rounded-sm max) everywhere. Sharp edges are part of the HUD
   language (R-11 deliberate choice).
@@ -34,14 +35,19 @@ hero and project previews so the page reads as one system.
   a third-party origin can change paths silently, and a local WebP keeps the
   section loading without a cross-origin request. Each badge still links out to
   its public Credly page for verification.
+- Press feedback: controls scale to 0.98 for 120ms, because the HUD reads as an
+  instrument panel; a click should be felt, not only seen.
+- Project modal: opacity plus a 2 percent scale over 220ms, because a surface
+  that teleports breaks the spatial story of the HUD frame.
 
 ## Dials
 ENERGY 2 / RHYTHM 2 / MOTION 2
 
-- MOTION 2: hover states, transitions, and one ambient loop: the hero canvas
-  mesh drifts particles continuously. User-requested ambient motion; the loop
-  is disabled entirely under `prefers-reduced-motion` (static frame instead).
-  No scroll-reveal, no floating UI elements, no parallax.
+- MOTION 2: hover states, 120ms press feedback, a 200 to 220ms project-modal
+  transition, and one ambient loop: the hero canvas particles drift continuously.
+  The loop stops offscreen and is disabled entirely under
+  `prefers-reduced-motion` (static frame instead). No scroll-reveal, no floating
+  UI elements, no parallax.
 
 ## Content rules
 - Every number shown is real or absent: 3+ years building, 3 shipped projects,

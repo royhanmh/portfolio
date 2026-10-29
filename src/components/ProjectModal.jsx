@@ -1,12 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { X, ArrowUpRight, Github } from "lucide-react";
 import { useLang } from "../i18n/useLang";
 import ScreenshotCarousel from "./ScreenshotCarousel";
+
+const EXIT_MS = 220;
 
 export default function ProjectModal({ project, onClose }) {
   const { t, lang } = useLang();
   const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
+  const closeTimer = useRef(null);
+  const closingRef = useRef(false);
+  const [entered, setEntered] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   useEffect(() => {
     const previouslyFocused =
@@ -14,10 +25,25 @@ export default function ProjectModal({ project, onClose }) {
         ? document.activeElement
         : null;
     closeButtonRef.current?.focus();
+    return () => previouslyFocused?.focus();
+  }, []);
 
+  const requestClose = useCallback(() => {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    setClosing(true);
+    const reduce = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    closeTimer.current = setTimeout(onClose, reduce ? 0 : EXIT_MS);
+  }, [onClose]);
+
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
+  useEffect(() => {
     const onKeyDown = (e) => {
       if (e.key === "Escape") {
-        onClose();
+        requestClose();
         return;
       }
       if (e.key !== "Tab" || !dialogRef.current) return;
@@ -39,17 +65,18 @@ export default function ProjectModal({ project, onClose }) {
     };
 
     window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      previouslyFocused?.focus();
-    };
-  }, [onClose]);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [requestClose]);
+
+  const visible = entered && !closing;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 transition-opacity duration-200 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget) requestClose();
       }}
     >
       <div
@@ -57,7 +84,9 @@ export default function ProjectModal({ project, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
-        className="relative max-h-[90vh] w-full max-w-2xl space-y-6 overflow-y-auto border border-edge-strong bg-panel p-6 sm:p-8"
+        className={`relative max-h-[90vh] w-full max-w-2xl space-y-6 overflow-y-auto border border-edge-strong bg-panel p-6 transition-[opacity,scale] duration-[220ms] ease-[var(--ease-out)] sm:p-8 ${
+          visible ? "scale-100 opacity-100" : "scale-[0.98] opacity-0"
+        }`}
       >
         <div className="flex items-start justify-between gap-4 border-b border-edge pb-4">
           <div>
@@ -75,7 +104,7 @@ export default function ProjectModal({ project, onClose }) {
           <button
             ref={closeButtonRef}
             type="button"
-            onClick={onClose}
+            onClick={requestClose}
             aria-label={t("projects.close")}
             className="flex h-11 w-11 shrink-0 items-center justify-center border border-edge text-dim transition-colors hover:text-ink"
           >
@@ -112,7 +141,7 @@ export default function ProjectModal({ project, onClose }) {
         <div className="flex flex-wrap justify-end gap-3 border-t border-edge pt-4">
           <button
             type="button"
-            onClick={onClose}
+            onClick={requestClose}
             className="min-h-[44px] border border-edge-strong px-5 py-2.5 font-mono text-xs text-dim transition-colors hover:text-ink"
           >
             {t("projects.close")}
@@ -120,6 +149,7 @@ export default function ProjectModal({ project, onClose }) {
           {project.liveUrl && (
             <a
               href={project.liveUrl}
+              data-press
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${t("projects.live")}: ${project.title} (opens in new tab)`}
@@ -130,6 +160,7 @@ export default function ProjectModal({ project, onClose }) {
           )}
           <a
             href={project.githubUrl}
+            data-press
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${t("projects.github")}: ${project.title} (opens in new tab)`}

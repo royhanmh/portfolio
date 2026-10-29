@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CERTIFICATES } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
 import { formatIssueDate } from "../utils/date";
@@ -7,12 +7,11 @@ import CertificateFrame from "./CertificateFrame";
 
 const SWIPE_THRESHOLD = 40;
 const FLICK_VELOCITY = 0.5;
-const AUTOPLAY_INTERVAL = 5000;
-const TRANSITION_MS = 350;
+const TRANSITION_MS = 300;
 
 const pad = (n) => String(n).padStart(2, "0");
 
-export default function CertificateCarousel({ autoPlay = false }) {
+export default function CertificateCarousel() {
   const { t, lang } = useLang();
   // Extended loop track of 9 slides: every position in the real window
   // (3..5) and one step beyond it in either direction always has full
@@ -23,8 +22,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
       typeof window !== "undefined" &&
       window.matchMedia?.("(min-width: 1024px)").matches,
   );
-  const [hoverPaused, setHoverPaused] = useState(false);
-  const [userPaused, setUserPaused] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [jumping, setJumping] = useState(false);
@@ -38,8 +35,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
   // Track position 3 maps to real certificate 0.
   const activeIndex = (((pos - 3) % total) + total) % total;
   const active = CERTIFICATES[activeIndex];
-
-  const autoplayPaused = hoverPaused || userPaused || isDragging;
 
   useEffect(() => {
     const query = window.matchMedia?.("(min-width: 1024px)");
@@ -65,19 +60,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
       return () => clearTimeout(id);
     }
   }, [pos, total, jumping]);
-
-  useEffect(() => {
-    if (!autoPlay || total < 2 || autoplayPaused) return;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    const id = setInterval(() => {
-      setPos((current) => current + 1);
-    }, AUTOPLAY_INTERVAL);
-    return () => clearInterval(id);
-  }, [total, autoplayPaused, autoPlay]);
 
   // A navigation that lands mid-jump flushes the pending snap first, so no
   // input is ever swallowed inside the normalization window.
@@ -119,7 +101,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
     startX.current = e.clientX;
     moves.current = [{ x: e.clientX, t: performance.now() }];
     setDragX(0);
-    setHoverPaused(true);
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
@@ -145,7 +126,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
     moves.current = [];
     setIsDragging(false);
     setDragX(0);
-    setHoverPaused(false);
     if (total < 2) return;
     if (velocity <= -FLICK_VELOCITY) go(1);
     else if (velocity >= FLICK_VELOCITY) go(-1);
@@ -159,17 +139,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
     moves.current = [];
     setIsDragging(false);
     setDragX(0);
-    setHoverPaused(false);
-  };
-
-  const handleMouseEnter = () => {
-    if (isDragging) return;
-    setHoverPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (isDragging) return;
-    setHoverPaused(false);
   };
 
   if (total === 0 || !active) return null;
@@ -180,18 +149,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
   const animating = isDragging || jumping;
 
   return (
-    <div
-      className="w-full"
-      onKeyDown={onKeyDown}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocusCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setHoverPaused(true);
-      }}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setHoverPaused(false);
-      }}
-    >
+    <div className="w-full" onKeyDown={onKeyDown}>
       <div
         role="region"
         aria-roledescription="carousel"
@@ -207,7 +165,9 @@ export default function CertificateCarousel({ autoPlay = false }) {
           className="flex items-center"
           style={{
             transform: `translateX(calc(${(100 - basis) / 2 - pos * basis}% + ${dragX}px))`,
-            transition: animating ? "none" : `transform ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1)`,
+            transition: animating
+              ? "none"
+              : `transform ${TRANSITION_MS}ms var(--ease-out)`,
           }}
         >
           {order.map((realIndex, trackPos) => {
@@ -232,12 +192,9 @@ export default function CertificateCarousel({ autoPlay = false }) {
                   style={{
                     transform: focused ? "scale(1)" : "scale(0.92)",
                     opacity: focused ? 1 : 0.75,
-                    boxShadow: focused
-                      ? "0 0 30px rgba(0, 0, 0, 0.18)"
-                      : "none",
                     transition: animating
                       ? "none"
-                      : `transform ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1), opacity ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1), box-shadow ${TRANSITION_MS}ms cubic-bezier(0.2, 0, 0, 1)`,
+                      : `transform ${TRANSITION_MS}ms var(--ease-out), opacity ${TRANSITION_MS}ms var(--ease-out)`,
                   }}
                 >
                   <CertificateFrame
@@ -251,18 +208,6 @@ export default function CertificateCarousel({ autoPlay = false }) {
           })}
         </div>
 
-        {autoPlay && total > 1 && !autoplayPaused && (
-          <div
-            aria-hidden="true"
-            className="mx-auto mt-2 h-0.5 w-full bg-transparent"
-          >
-            <div
-              key={`${pos}-${AUTOPLAY_INTERVAL}`}
-              className="animate-carousel-progress h-full w-full bg-brand-bright motion-reduce:hidden"
-              style={{ animationDuration: `${AUTOPLAY_INTERVAL}ms` }}
-            />
-          </div>
-        )}
       </div>
 
       <div className="w-full px-2 text-left">
@@ -286,6 +231,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
           <a
             href={active.image}
+            data-press
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${t("certificates.expand")}: ${active.title} (opens in new tab)`}
@@ -296,6 +242,7 @@ export default function CertificateCarousel({ autoPlay = false }) {
           {active.verifyUrl && (
             <a
               href={active.verifyUrl}
+              data-press
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${t("certificates.verify")}: ${active.title} (opens in new tab)`}
@@ -330,53 +277,33 @@ export default function CertificateCarousel({ autoPlay = false }) {
               >
                 <span
                   aria-hidden="true"
-                  className={`block h-2.5 border transition-all duration-300 ${
+                  className={`block h-2.5 w-2.5 border transition-[background-color,border-color,scale] duration-300 ${
                     i === activeIndex
-                      ? "w-6 border-brand-bright bg-brand-bright"
-                      : "w-2.5 border-edge-strong bg-transparent hover:border-brand"
+                      ? "scale-x-[2.4] border-brand-bright bg-brand-bright"
+                      : "scale-x-100 border-edge-strong bg-transparent hover:border-brand"
                   }`}
                 />
               </button>
             ))}
           </div>
-          {autoPlay ? (
+          <span className="flex items-center gap-1">
             <button
               type="button"
-              onClick={() => setUserPaused((v) => !v)}
-              aria-label={
-                userPaused
-                  ? t("certificates.playAutoplay")
-                  : t("certificates.pauseAutoplay")
-              }
-              aria-pressed={userPaused}
+              onClick={() => go(-1)}
+              aria-label={t("certificates.prev")}
               className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
             >
-              {userPaused ? (
-                <Play size={14} aria-hidden="true" />
-              ) : (
-                <Pause size={14} aria-hidden="true" />
-              )}
+              <ChevronLeft size={18} aria-hidden="true" />
             </button>
-          ) : (
-            <span className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => go(-1)}
-                aria-label={t("certificates.prev")}
-                className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
-              >
-                <ChevronLeft size={18} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                onClick={() => go(1)}
-                aria-label={t("certificates.next")}
-                className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
-              >
-                <ChevronRight size={18} aria-hidden="true" />
-              </button>
-            </span>
-          )}
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label={t("certificates.next")}
+              className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
+            >
+              <ChevronRight size={18} aria-hidden="true" />
+            </button>
+          </span>
         </div>
       )}
 

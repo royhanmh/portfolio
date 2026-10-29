@@ -45,6 +45,7 @@ export default function Header({ activeSection, onNavigate }) {
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
         <a
           href="#home"
+          data-press
           onClick={(e) => {
             e.preventDefault();
             handleNavigate("home");

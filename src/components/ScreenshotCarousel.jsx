@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import PreviewPlaceholder from "./PreviewPlaceholder";
 import { useLang } from "../i18n/useLang";
 
@@ -12,16 +12,11 @@ export default function ScreenshotCarousel({
   screenshots,
   accent,
   title,
-  autoPlay = false,
-  interval = 3500,
-  startDelay = 0,
   showArrows = true,
   showDots = true,
 }) {
   const { t, lang } = useLang();
   const [index, setIndex] = useState(0);
-  const [hoverPaused, setHoverPaused] = useState(false);
-  const [userPaused, setUserPaused] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const startX = useRef(null);
@@ -29,41 +24,9 @@ export default function ScreenshotCarousel({
 
   const total = screenshots.length;
   const go = (delta) => {
-    if (autoPlay) {
-      setIndex((current) => (current + delta + total) % total);
-    } else {
-      setIndex((current) => Math.min(total - 1, Math.max(0, current + delta)));
-    }
+    setIndex((current) => Math.min(total - 1, Math.max(0, current + delta)));
   };
   const goTo = (i) => setIndex(Math.min(total - 1, Math.max(0, i)));
-
-  const autoplayPaused = hoverPaused || userPaused || isDragging;
-
-  useEffect(() => {
-    if (!autoPlay || total < 2 || autoplayPaused) return;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    let id;
-    const delay = index === 0 && startDelay > 0 ? startDelay : 0;
-    const start = () => {
-      id = setInterval(() => {
-        setIndex((current) => (current + 1) % total);
-      }, interval);
-    };
-    let timeout;
-    if (delay > 0) {
-      timeout = setTimeout(start, delay);
-    } else {
-      start();
-    }
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(id);
-    };
-  }, [autoPlay, total, autoplayPaused, interval, startDelay, index]);
 
   const onKeyDown = (e) => {
     if (total < 2) return;
@@ -84,7 +47,6 @@ export default function ScreenshotCarousel({
     startX.current = e.clientX;
     moves.current = [{ x: e.clientX, t: performance.now() }];
     setDragX(0);
-    if (autoPlay) setHoverPaused(true);
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
@@ -93,15 +55,13 @@ export default function ScreenshotCarousel({
     const raw = e.clientX - startX.current;
     moves.current.push({ x: e.clientX, t: performance.now() });
     if (moves.current.length > 6) moves.current.shift();
-    if (!autoPlay) {
-      if (index === 0 && raw > 0) {
-        setDragX(raw * 0.35);
-        return;
-      }
-      if (index === total - 1 && raw < 0) {
-        setDragX(raw * 0.35);
-        return;
-      }
+    if (index === 0 && raw > 0) {
+      setDragX(raw * 0.35);
+      return;
+    }
+    if (index === total - 1 && raw < 0) {
+      setDragX(raw * 0.35);
+      return;
     }
     setDragX(raw);
   };
@@ -121,7 +81,6 @@ export default function ScreenshotCarousel({
     moves.current = [];
     setIsDragging(false);
     setDragX(0);
-    if (autoPlay) setHoverPaused(false);
     if (total < 2) return;
     if (velocity <= -FLICK_VELOCITY) go(1);
     else if (velocity >= FLICK_VELOCITY) go(-1);
@@ -135,17 +94,6 @@ export default function ScreenshotCarousel({
     moves.current = [];
     setIsDragging(false);
     setDragX(0);
-    if (autoPlay) setHoverPaused(false);
-  };
-
-  const handleMouseEnter = () => {
-    if (isDragging) return;
-    setHoverPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (isDragging) return;
-    setHoverPaused(false);
   };
 
   if (total === 0) {
@@ -157,28 +105,7 @@ export default function ScreenshotCarousel({
   }
 
   return (
-    <div
-      className="w-full"
-      onKeyDown={onKeyDown}
-      onMouseEnter={autoPlay ? handleMouseEnter : undefined}
-      onMouseLeave={autoPlay ? handleMouseLeave : undefined}
-      onFocusCapture={
-        autoPlay
-          ? (e) => {
-              if (!e.currentTarget.contains(e.relatedTarget))
-                setHoverPaused(true);
-            }
-          : undefined
-      }
-      onBlurCapture={
-        autoPlay
-          ? (e) => {
-              if (!e.currentTarget.contains(e.relatedTarget))
-                setHoverPaused(false);
-            }
-          : undefined
-      }
-    >
+    <div className="w-full" onKeyDown={onKeyDown}>
       <div
         role="region"
         aria-roledescription="carousel"
@@ -196,7 +123,7 @@ export default function ScreenshotCarousel({
             transform: `translateX(calc(-${index * 100}% + ${dragX}px))`,
             transition: isDragging
               ? "none"
-              : "transform 350ms cubic-bezier(0.2, 0, 0, 1)",
+              : "transform 300ms var(--ease-out)",
           }}
         >
           {screenshots.map((shot, i) => (
@@ -229,7 +156,7 @@ export default function ScreenshotCarousel({
             <button
               type="button"
               onClick={() => go(-1)}
-              disabled={!autoPlay && index === 0}
+              disabled={index === 0}
               aria-label={t("projects.prevSlide")}
               className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-edge-strong bg-canvas/85 text-ink transition-colors hover:border-brand disabled:opacity-40"
             >
@@ -238,7 +165,7 @@ export default function ScreenshotCarousel({
             <button
               type="button"
               onClick={() => go(1)}
-              disabled={!autoPlay && index === total - 1}
+              disabled={index === total - 1}
               aria-label={t("projects.nextSlide")}
               className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-edge-strong bg-canvas/85 text-ink transition-colors hover:border-brand disabled:opacity-40"
             >
@@ -247,18 +174,6 @@ export default function ScreenshotCarousel({
           </>
         )}
 
-        {autoPlay && total > 1 && !autoplayPaused && (
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 bottom-0 h-0.5 bg-transparent"
-          >
-            <div
-              key={`${index}-${interval}`}
-              className="animate-carousel-progress h-full w-full bg-brand-bright motion-reduce:hidden"
-              style={{ animationDuration: `${interval}ms` }}
-            />
-          </div>
-        )}
       </div>
 
       {total > 1 && showDots && (
@@ -281,36 +196,16 @@ export default function ScreenshotCarousel({
               >
                 <span
                   aria-hidden="true"
-                  className={`block h-2.5 border transition-all duration-300 ${
+                  className={`block h-2.5 w-2.5 border transition-[background-color,border-color,scale] duration-300 ${
                     i === index
-                      ? "w-6 border-brand-bright bg-brand-bright"
-                      : "w-2.5 border-edge-strong bg-transparent hover:border-brand"
+                      ? "scale-x-[2.4] border-brand-bright bg-brand-bright"
+                      : "scale-x-100 border-edge-strong bg-transparent hover:border-brand"
                   }`}
                 />
               </button>
             ))}
           </div>
-          {autoPlay ? (
-            <button
-              type="button"
-              onClick={() => setUserPaused((v) => !v)}
-              aria-label={
-                userPaused
-                  ? t("projects.playAutoplay")
-                  : t("projects.pauseAutoplay")
-              }
-              aria-pressed={userPaused}
-              className="flex h-11 w-11 items-center justify-center border border-edge text-dim transition-colors hover:border-brand hover:text-ink"
-            >
-              {userPaused ? (
-                <Play size={14} aria-hidden="true" />
-              ) : (
-                <Pause size={14} aria-hidden="true" />
-              )}
-            </button>
-          ) : (
-            <span className="w-11" aria-hidden="true" />
-          )}
+          <span className="w-11" aria-hidden="true" />
         </div>
       )}
 

@@ -45,6 +45,7 @@ export default function ProjectCard({ project, onOpen }) {
           {project.liveUrl && (
             <a
               href={project.liveUrl}
+              data-press
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${t("projects.live")}: ${project.title} (opens in new tab)`}
@@ -60,6 +61,7 @@ export default function ProjectCard({ project, onOpen }) {
           )}
           <a
             href={project.githubUrl}
+            data-press
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${t("projects.github")}: ${project.title} (opens in new tab)`}
