@@ -1,3 +1,21 @@
+[[redirects]]
+  from = "https://royhanmh.my.id/*"
+  to = "https://royhan.web.id/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.royhanmh.my.id/*"
+  to = "https://royhan.web.id/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.royhan.web.id/*"
+  to = "https://royhan.web.id/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]

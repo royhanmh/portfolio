@@ -1,6 +1,6 @@
 # Muhammad Zaynurroyhan - Portfolio
 
-Personal portfolio site, live at [royhanmh.my.id](https://royhanmh.my.id/).
+Personal portfolio site, live at [royhan.web.id](https://royhan.web.id/).
 
 Full-stack web developer based in Sukabumi, Indonesia. This site replaces my previous portfolio with a terminal-HUD inspired redesign.
 
