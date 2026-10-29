@@ -1,4 +1,10 @@
 [[redirects]]
+  from = "https://royhanmh.netlify.app/*"
+  to = "https://royhan.web.id/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "https://royhanmh.my.id/*"
   to = "https://royhan.web.id/:splat"
   status = 301
