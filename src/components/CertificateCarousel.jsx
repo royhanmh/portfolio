@@ -255,17 +255,17 @@ export default function CertificateCarousel() {
       </div>
 
       {total > 1 && (
-        <div className="mt-1 flex w-full flex-wrap items-center justify-between gap-2 px-2">
+        <div className="mt-1 grid w-full grid-cols-[1fr_auto] items-center gap-x-2 gap-y-1 px-2 sm:flex sm:flex-wrap sm:justify-between">
           <p
             aria-hidden="true"
-            className="font-mono text-[10px] tracking-widest text-dim"
+            className="order-2 font-mono text-[10px] tracking-widest text-dim sm:order-1"
           >
             {t("certificates.slideCount", {
               n: pad(activeIndex + 1),
               total: pad(total),
             })}
           </p>
-          <div className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-1">
+          <div className="order-1 col-span-2 flex min-w-0 flex-wrap items-center justify-center gap-1 sm:order-2 sm:col-span-1 sm:flex-1">
             {CERTIFICATES.map((certificate, i) => (
               <button
                 key={certificate.id}
@@ -286,7 +286,7 @@ export default function CertificateCarousel() {
               </button>
             ))}
           </div>
-          <span className="flex items-center gap-1">
+          <span className="order-3 flex items-center justify-end gap-1">
             <button
               type="button"
               onClick={() => go(-1)}
