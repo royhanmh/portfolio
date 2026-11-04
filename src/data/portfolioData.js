@@ -13,6 +13,7 @@ import logoWarmindo from "../assets/logos/warmindo.webp";
 import certSinauKoding from "../assets/certs/sinau-koding-best-graduate.webp";
 import certDataScience from "../assets/certs/data-science.webp";
 import certGenerativeAi from "../assets/certs/generative-ai.webp";
+import certMicrosoftElevate from "../assets/certs/microsoft-elevate-skill-sprint.webp";
 import badgeAzure from "../assets/badges/azure-fundamentals.webp";
 import badgePowerPlatform from "../assets/badges/power-platform-fundamentals.webp";
 import badgeSecurityIdentity from "../assets/badges/security-compliance-identity-fundamentals.webp";
@@ -167,6 +168,15 @@ export const CERTIFICATES = [
   },
   {
     id: "02",
+    title: "Microsoft Elevate Training Center Skill Sprint",
+    issuer: "Dicoding Indonesia",
+    issued: "2026-09-30",
+    credentialId: "PRE1AOZUC2",
+    verifyUrl: "https://www.dicoding.com/elevate/certificates/PRE1AOZUC2",
+    image: certMicrosoftElevate,
+  },
+  {
+    id: "03",
     title: "Belajar Penerapan Data Science dengan Microsoft Fabric",
     issuer: "Dicoding Indonesia",
     issued: "2026-09-12",
@@ -175,7 +185,7 @@ export const CERTIFICATES = [
     image: certDataScience,
   },
   {
-    id: "03",
+    id: "04",
     title: "Membangun Aplikasi Gen AI dengan Microsoft Azure",
     issuer: "Dicoding Indonesia",
     issued: "2026-09-17",
