@@ -3,6 +3,8 @@ import { Menu, X } from "lucide-react";
 import { NAV_ITEMS } from "../data/portfolioData";
 import { useLang } from "../i18n/useLang";
 import ThemeToggle from "./ThemeToggle";
+import navbarMark from "../assets/navbar-mark.svg";
+import navbarMarkLight from "../assets/navbar-mark-light.svg";
 
 export default function Header({ activeSection, onNavigate }) {
   const { t, toggleLang, lang } = useLang();
@@ -50,10 +52,21 @@ export default function Header({ activeSection, onNavigate }) {
             e.preventDefault();
             handleNavigate("home");
           }}
-          className="group flex h-11 w-11 items-center justify-center border border-brand/50 bg-panel font-mono text-sm font-bold tracking-widest text-ink shadow-[0_0_12px_rgba(59,130,246,0.25)] transition-colors group-hover:border-brand-bright"
+          className="flex h-11 w-11 items-center justify-center shadow-[0_0_12px_rgba(59,130,246,0.25)]"
           aria-label="ZR, back to top"
         >
-          ZR
+          <img
+            src={navbarMarkLight}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full dark:hidden"
+          />
+          <img
+            src={navbarMark}
+            alt=""
+            aria-hidden="true"
+            className="hidden h-full w-full dark:block"
+          />
         </a>
 
         <nav
